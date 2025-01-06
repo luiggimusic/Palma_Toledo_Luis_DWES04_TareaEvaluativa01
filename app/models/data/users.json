@@ -1,0 +1,58 @@
+[
+    {
+        "id": 0,
+        "name": "Manuel",
+        "surname": "Lopez Gonzalez",
+        "dni": "44359406L",
+        "dateOfBirth": "17\/12\/1981",
+        "departmentId": "PL"
+    },
+    {
+        "id": 1,
+        "name": "Juan",
+        "surname": "Perez",
+        "dni": "04622363F",
+        "dateOfBirth": "15\/10\/1985",
+        "departmentId": "PL"
+    },
+    {
+        "id": 2,
+        "name": "Marta",
+        "surname": "Ruiz Jimenez",
+        "dni": "76439859A",
+        "dateOfBirth": "03\/11\/1978",
+        "departmentId": "PU"
+    },
+    {
+        "id": 3,
+        "name": "Rafael",
+        "surname": "Alvarez Romero",
+        "dni": "10299255Q",
+        "dateOfBirth": "05\/01\/2003",
+        "departmentId": "OP"
+    },
+    {
+        "id": 4,
+        "name": "Alejandro",
+        "surname": "Navarro Gutierrez",
+        "dni": "24228259J",
+        "dateOfBirth": "11\/10\/1999",
+        "departmentId": "OPM"
+    },
+    {
+        "id": 5,
+        "name": "Rosa",
+        "surname": "Torres Ramos",
+        "dni": "23361012G",
+        "dateOfBirth": "01\/05\/1986",
+        "departmentId": "PRR"
+    },
+    {
+        "id": 6,
+        "name": "Daniel",
+        "surname": "Serrano Molina",
+        "dni": "66150847H",
+        "dateOfBirth": "07\/10\/1980",
+        "departmentId": "PRM"
+    }
+]

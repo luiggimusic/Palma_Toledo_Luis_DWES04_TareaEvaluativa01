@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /Palma_Toledo_Luis_DWES04_TareaEvaluativa01/public
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteRule ^(.*)$ index.php?/$1 [QSA,L]

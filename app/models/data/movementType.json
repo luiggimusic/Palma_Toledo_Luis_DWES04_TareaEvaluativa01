@@ -1,0 +1,37 @@
+[
+    {
+        "id": 0,
+        "movementId": "PU",
+        "movementName": "Purchase"
+    },
+    {
+        "id": 1,
+        "movementId": "SA",
+        "movementName": "Sale"
+    },
+    {
+        "id": 2,
+        "movementId": "TR",
+        "movementName": "Transfer"
+    },
+    {
+        "id": 3,
+        "movementId": "SC",
+        "movementName": "Scrap"
+    },
+    {
+        "id": 4,
+        "movementId": "PA",
+        "movementName": "Positive adjustment"
+    },
+    {
+        "id": 5,
+        "movementId": "NA",
+        "movementName": "Negative adjustment"
+    },
+    {
+        "id": 6,
+        "movementId": "MC",
+        "movementName": "Material consumption"
+    }
+]

@@ -1,0 +1,37 @@
+[
+    {
+        "id": 0,
+        "categoryId": "PK",
+        "categoryName": "Packaging"
+    },
+    {
+        "id": 1,
+        "categoryId": "FP",
+        "categoryName": "Finished part"
+    },
+    {
+        "id": 2,
+        "categoryId": "RM",
+        "categoryName": "Raw material"
+    },
+    {
+        "id": 3,
+        "categoryId": "TO",
+        "categoryName": "Tooling"
+    },
+    {
+        "id": 4,
+        "categoryId": "UT",
+        "categoryName": "Utils"
+    },
+    {
+        "id": 5,
+        "categoryId": "OF",
+        "categoryName": "Office"
+    },
+    {
+        "id": 6,
+        "categoryId": "CL",
+        "categoryName": "Clothes"
+    }
+]
