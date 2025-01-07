@@ -11,12 +11,13 @@
 
 
 DROP TABLE IF EXISTS `movements`;
-DROP TABLE IF EXISTS `products`;
-DROP TABLE IF EXISTS `productsCategories`;
 DROP TABLE IF EXISTS `movementsTypes`;
 DROP TABLE IF EXISTS `inventory`;
+DROP TABLE IF EXISTS `products`;
+DROP TABLE IF EXISTS `productsCategories`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `departments`;
+
 
 -- --------------------------------------------------------
 --
@@ -142,43 +143,40 @@ INSERT INTO `movements` (`productCode`, `fromBatchNumber`, `toBatchNumber`, `fro
 
 -- --------------------------------------------------------
 --
--- Estructura de tabla para la tabla `stock`
+-- Estructura de tabla para la tabla `inventory`
 --
 CREATE TABLE IF NOT EXISTS `inventory` (
-    `id` INT(10) NOT NULL,
     `productCode` VARCHAR(20) PRIMARY KEY,
     `batchNumber` VARCHAR(10) DEFAULT NULL,
     `location` VARCHAR(10) DEFAULT NULL,
-    `stock` INT NOT NULL
-
+    `stock` INT NOT NULL,
+    CONSTRAINT `INV_PROD_FK` FOREIGN KEY (`productCode`) REFERENCES `products` (`productCode`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
-    -- CONSTRAINT `STK_PROD_FK` FOREIGN KEY (`productCode`) REFERENCES `products` (`productCode`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 
 --
--- Volcado de datos para la tabla `stock`
+-- Volcado de datos para la tabla `inventory`
 --
 INSERT INTO
-    `inventory` (`id`,`productCode`,`batchNumber`,`location`,`stock`)
+    `inventory` (`productCode`,`batchNumber`,`location`,`stock`)
     VALUES
-        (0, '3001-01-0005', '10000254', 'EMBAL', 81),
-        (1, '3001-01-0015', '10000254', 'EMBAL', 696),
-        (2, '3001-01-0017', '10000254', 'EMBAL', 178),
-        (3,'1716186-00-C-FAB','20241202-201','ENCAIXAT',113),
-        (4,'1716187-00-D-FAB','20241209-204','ENCAIXAT',258),
-        (5,'FC1H2K8AAA02-FAB','20241111-215','ENCAIXAT',25),
-        (6, 'FC1N0F2S1A02', '20240809', 'ENCAIXAT', 15),
-        (7, 'FC1H2K8AAA-PXI', '10000254', 'M215', 4),
-        (8, 'FC1K4K8PAB-PXI', '20233552', 'M220B', 124),
-        (9, 'FC1N0F2S1B-PXI', '10000206', 'M221', 33),
-        (10, '1716186-00-P-FAB', '10000254', 'M215', 500),
-        (11, 'FC1N0F2S1C-PXI', '10000206', 'M221', 33);
+        ('3001-01-0005', '10000254', 'EMBAL', 81),
+        ('3001-01-0015', '10000254', 'EMBAL', 696),
+        ('3001-01-0017', '10000254', 'EMBAL', 178),
+        ('1716186-00-C-FAB','20241202-201','ENCAIXAT',113),
+        ('1716187-00-D-FAB','20241209-204','ENCAIXAT',258),
+        ('FC1H2K8AAA02-FAB','20241111-215','ENCAIXAT',25),
+        ('FC1N0F2S1A02', '20240809', 'ENCAIXAT', 15),
+        ('FC1H2K8AAA-PXI', '10000254', 'M215', 4),
+        ('FC1K4K8PAB-PXI', '20233552', 'M220B', 124),
+        ('FC1N0F2S1B-PXI', '10000206', 'M221', 33),
+        ('1716186-00-P-FAB', '10000254', 'M215', 500),
+        ('FC1N0F2S1C-PXI', '10000206', 'M221', 33);
 
 -- --------------------------------------------------------
 --
 -- Estructura de tabla para la tabla `departments`
 --
 CREATE TABLE IF NOT EXISTS `departments` (
-    `id` int (5) NOT NULL,
     `departmentId` VARCHAR(5) PRIMARY KEY,
     `departmentName` VARCHAR(30) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
@@ -187,15 +185,15 @@ CREATE TABLE IF NOT EXISTS `departments` (
 -- Volcado de datos para la tabla `departments`
 --
 INSERT INTO
-    `departments` (`id`, `departmentId`, `departmentName`)
+    `departments` (`departmentId`, `departmentName`)
     VALUES
-        (0, 'PL', 'Planning'),
-        (1, 'PU', 'Purchases'),
-        (2, 'OP', 'Operations'),
-        (3, 'OPM', 'Operations Manager'),
-        (4, 'PRR', 'Production Responsible'),
-        (5, 'PRM', 'Production Manager'),
-        (6, 'SAL', 'Sales');
+        ('PL', 'Planning'),
+        ('PU', 'Purchases'),
+        ('OP', 'Operations'),
+        ('OPM', 'Operations Manager'),
+        ('PRR', 'Production Responsible'),
+        ('PRM', 'Production Manager'),
+        ('SAL', 'Sales');
 
 -- --------------------------------------------------------
 --
