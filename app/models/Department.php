@@ -46,7 +46,7 @@ class Department
     }
     private static function getFilePath()
     { // Por visualización he creado esta función decoficando el JSON y poder usarlo en las otras funciones
-        return __DIR__ . '/../models/data/department.json'; // Ruta del archivo JSON
+        return __DIR__ . '/../../data/department.json'; // Ruta del archivo JSON
     }
 
     private static function datosJsonParseados()

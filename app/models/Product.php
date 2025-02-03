@@ -87,7 +87,7 @@ class Product
 
     public static function getFilePath()
     { // Por visualización he creado esta función decodificando el JSON y poder usarlo en las otras funciones
-        return __DIR__ . '/../models/data/product.json'; // Ruta del archivo JSON
+        return __DIR__ . '/../../data/product.json'; // Ruta del archivo JSON
     }
 
     public static function datosJsonParseados() // Esta función es pública pues necesitaré estos datos en la clase Movement

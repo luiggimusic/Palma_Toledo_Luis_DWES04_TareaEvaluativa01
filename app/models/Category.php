@@ -46,7 +46,7 @@ class Category
     }
     private static function getFilePath()
     { // Por visualización he creado esta función decoficiando el JSON y poder usarlo en las otras funciones
-        return __DIR__ . '/../models/data/category.json'; // Ruta del archivo JSON
+        return __DIR__ . '/../../data/category.json'; // Ruta del archivo JSON
     }
 
     private static function datosJsonParseados()

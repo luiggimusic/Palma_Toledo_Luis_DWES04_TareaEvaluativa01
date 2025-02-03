@@ -3,11 +3,8 @@
 -- Base de datos: `Palma_Toledo_Luis_DWES04_TareaEvaluativa01`
 --
 
-
--- Para poder hacer pruebas y ROLLBACKs
--- SET autocommit = 0;
--- START TRANSACTION;
--- ROLLBACK;
+CREATE DATABASE IF NOT EXISTS palma_toledo_luis_dwes04_tareaevaluativa01;
+USE palma_toledo_luis_dwes04_tareaevaluativa01;
 
 
 DROP TABLE IF EXISTS `movements`;
@@ -24,8 +21,10 @@ DROP TABLE IF EXISTS `departments`;
 -- Estructura de tabla para la tabla `productsCategories`
 --
 CREATE TABLE IF NOT EXISTS `productsCategories` (
+    `id` INT NOT NULL AUTO_INCREMENT,
     `categoryId` VARCHAR(5) PRIMARY KEY,
-    `categoryName` VARCHAR(30) NOT NULL
+    `categoryName` VARCHAR(30) NOT NULL,
+    CONSTRAINT `PRODCAT_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 --
@@ -47,10 +46,12 @@ VALUES
 -- Estructura de tabla para la tabla `products`
 --
 CREATE TABLE IF NOT EXISTS `products` (
+    `id` INT NOT NULL AUTO_INCREMENT,
     `productCode` VARCHAR(20) PRIMARY KEY,
     `productName` VARCHAR(50) NOT NULL,
     `categoryId` VARCHAR(5) NOT NULL,
-    CONSTRAINT `PROD_CAT_FK` FOREIGN KEY (`categoryId`) REFERENCES `productsCategories` (`categoryId`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `PROD_CAT_FK` FOREIGN KEY (`categoryId`) REFERENCES `productsCategories` (`categoryId`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `PROD_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 --
@@ -76,8 +77,11 @@ INSERT INTO
 --
 -- Estructura de tabla para la tabla `movementsTypes`
 --
-CREATE TABLE IF NOT EXISTS `movementsTypes` (    `movementId` VARCHAR(10) PRIMARY KEY,
-    `movementName` VARCHAR(30)
+CREATE TABLE IF NOT EXISTS `movementsTypes` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `movementId` VARCHAR(10) PRIMARY KEY,
+    `movementName` VARCHAR(30),
+    CONSTRAINT `MOVTYP_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 --
@@ -98,7 +102,8 @@ INSERT INTO
 --
 -- Estructura de tabla para la tabla `movements`
 --
-CREATE TABLE IF NOT EXISTS `movements` (
+CREATE TABLE IF NOT EXISTS `movements` (    
+    `id` INT NOT NULL AUTO_INCREMENT,
     `productCode` VARCHAR(20) NOT NULL,
     `fromBatchNumber` VARCHAR(10) DEFAULT NULL,
     `toBatchNumber` VARCHAR(10) DEFAULT NULL,
@@ -110,7 +115,8 @@ CREATE TABLE IF NOT EXISTS `movements` (
     `customer` VARCHAR(20) DEFAULT NULL,
     `supplier` VARCHAR(20) DEFAULT NULL,
     CONSTRAINT `MOV_PROD_FK` FOREIGN KEY (`productCode`) REFERENCES `products` (`productCode`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    CONSTRAINT `MOV_MTYPES_FK` FOREIGN KEY (`movementId`) REFERENCES `movementsTypes` (`movementId`)
+    CONSTRAINT `MOV_MTYPES_FK` FOREIGN KEY (`movementId`) REFERENCES `movementsTypes` (`movementId`),
+    CONSTRAINT `MOV_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 
@@ -146,11 +152,13 @@ INSERT INTO `movements` (`productCode`, `fromBatchNumber`, `toBatchNumber`, `fro
 -- Estructura de tabla para la tabla `inventory`
 --
 CREATE TABLE IF NOT EXISTS `inventory` (
+    `id` INT NOT NULL AUTO_INCREMENT,
     `productCode` VARCHAR(20) PRIMARY KEY,
     `batchNumber` VARCHAR(10) DEFAULT NULL,
     `location` VARCHAR(10) DEFAULT NULL,
     `stock` INT NOT NULL,
-    CONSTRAINT `INV_PROD_FK` FOREIGN KEY (`productCode`) REFERENCES `products` (`productCode`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    CONSTRAINT `INV_PROD_FK` FOREIGN KEY (`productCode`) REFERENCES `products` (`productCode`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `INV_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 --
@@ -177,8 +185,10 @@ INSERT INTO
 -- Estructura de tabla para la tabla `departments`
 --
 CREATE TABLE IF NOT EXISTS `departments` (
+    `id` INT NOT NULL AUTO_INCREMENT,
     `departmentId` VARCHAR(5) PRIMARY KEY,
-    `departmentName` VARCHAR(30) NOT NULL
+    `departmentName` VARCHAR(30) NOT NULL,
+    CONSTRAINT `DEP_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 --
@@ -200,12 +210,14 @@ INSERT INTO
 -- Estructura de tabla para la tabla `users`
 --
 CREATE TABLE IF NOT EXISTS `users` (
+    `id` INT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(20) NOT NULL,
     `surname` VARCHAR(30) NOT NULL,
     `dni` VARCHAR(9) PRIMARY KEY,
     `dateOfBirth` DATE NOT NULL,
     `departmentId` VARCHAR(5) NOT NULL,
-    CONSTRAINT `USR_DEP_FK` FOREIGN KEY (`departmentId`) REFERENCES `departments` (`departmentId`) ON DELETE NO ACTION ON UPDATE CASCADE
+    CONSTRAINT `USR_DEP_FK` FOREIGN KEY (`departmentId`) REFERENCES `departments` (`departmentId`) ON DELETE NO ACTION ON UPDATE CASCADE,
+    CONSTRAINT `USR_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 --

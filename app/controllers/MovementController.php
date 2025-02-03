@@ -1,6 +1,6 @@
 <?php
-
 declare(strict_types=1);
+
 header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
 require_once '../app/models/Movement.php'; // cargo el modelo
 require_once '../app/helpers/arrayHelper.php'; // cargo el fichero con las funciones que me permitirán trabajar con los arrays

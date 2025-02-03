@@ -149,7 +149,7 @@ class Movement
 
     public static function getFilePath()
     { // Por visualización he creado esta función decodificando el JSON y poder usarlo en las otras funciones
-        return __DIR__ . '/../models/data/movement.json'; // Ruta del archivo JSON
+        return __DIR__ . '/../../data/movement.json'; // Ruta del archivo JSON
     }
 
     private static function datosJsonParseados()
@@ -650,27 +650,6 @@ function validacionesDeInventoryTransfer($data)
 
     return $arrayErrores;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Con la función saveData actualizo los ficheros movement.json y product.json cada vez que se realizan cambios
 function saveData($movementDataArray, $productsDataArray)
