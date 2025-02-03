@@ -46,28 +46,28 @@ class User
 
     // Setters
     public function setName(string $name): void {
-        if (empty($name)) throw new Exception("El nombre es obligatorio");
+        // if (empty($name)) throw new Exception("El nombre es obligatorio");
         $this->name = ucfirst($name);
     }
 
     public function setSurname(string $surname): void {
-        if (empty($surname)) throw new Exception("El apellido es obligatorio");
+        // if (empty($surname)) throw new Exception("El apellido es obligatorio");
         $this->surname = ucfirst($surname);
     }
 
     public function setDni(string $dni): void {
-        if (empty($dni)) throw new Exception("El DNI es obligatorio");
-        if (!validarDNI($dni)) throw new Exception("El DNI no es válido");
+        // if (empty($dni)) throw new Exception("El DNI es obligatorio");
+        // if (!validarDNI($dni)) throw new Exception("El DNI no es válido");
         $this->dni = $dni;
     }
 
     public function setDateOfBirth(string $dateOfBirth): void {
-        if (empty($dateOfBirth)) throw new Exception("La fecha de nacimiento es obligatoria");
+        // if (empty($dateOfBirth)) throw new Exception("La fecha de nacimiento es obligatoria");
         $this->dateOfBirth = $dateOfBirth;
     }
 
     public function setDepartmentId(string $departmentId): void {
-        if (empty($departmentId)) throw new Exception("El departamento es obligatorio");
+        // if (empty($departmentId)) throw new Exception("El departamento es obligatorio");
         $this->departmentId = ucfirst($departmentId);
     }
 

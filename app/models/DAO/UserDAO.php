@@ -70,6 +70,12 @@ class UserDAO
         $connection = $this->db->getConnection();
 
 
+
+
+
+
+
+
     // Verificar si el DNI ya existe
     $query = "SELECT COUNT(*) FROM users WHERE dni = :dni";
     $statement = $connection->prepare($query);
@@ -82,11 +88,8 @@ class UserDAO
             'error' => true,
             'message' => 'El DNI ya está registrado en el sistema.'
         ];
+        
     }
-
-
-
-
 
 
 
