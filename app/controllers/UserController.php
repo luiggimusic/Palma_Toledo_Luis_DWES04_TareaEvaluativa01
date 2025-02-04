@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-// header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
+header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
 
 require '../app/models/DAO/UserDAO.php';
 require '../app/utils/ApiResponse.php';
@@ -75,71 +75,16 @@ class UserController
     // POST
     function createUser($data)
     {
-        // // Creo instancia del modelo User
-        // $userNew = new User(
-        //     $data["name"] ?? "",
-        //     $data["surname"] ?? "",
-        //     $data["dni"] ?? "",
-        //     $data["dateOfBirth"] ?? "",
-        //     $data["departmentId"] ?? ""
-        // );
-        // // Valido datos antes de la inserción
-        // $errores = $userNew->validacionesDeUsuario();
-
-
-
         $user = $this->userDAO->createUser($data);
         
-        
-        // var_dump($errores);
         if (isset($user)) {
-
-            // var_dump($user);
-            // if (isset($user)) {
                 return $this->sendJsonResponse(new ApiResponse(
                     status: 'success',
                     code: 200,
                     message: 'Datos cargados correctamente',
                     data: $user
                 ));
-            } else {
-                return $this->sendJsonResponse(new ApiResponse(
-                    status: 'not success',
-                    code: 500,
-                    message: 'Error al crear el usuario',
-                    data: $user
-                ));
-            }
-        
-        // // Valido datos antes de la inserción
-        // $errores = $userNew->validacionesDeUsuario();
-        // if (!empty($errores)) {
-        //     http_response_code(400);
-        //     echo json_encode(["errors" => $errores]);
-        //     return;
-        // }
-
-        // $user = $this->userDAO->createUser($data);
-        // // var_dump($user);
-        // if (isset($user)) {
-        //     return $this->sendJsonResponse(new ApiResponse(
-        //         status: 'success',
-        //         code: 200,
-        //         message: 'Datos cargados correctamente',
-        //         data: $user
-        //     ));
-        // } else {
-        //     return $this->sendJsonResponse(new ApiResponse(
-        //         status: 'not success',
-        //         code: 500,
-        //         message: 'Error al crear el usuario',
-        //         data: $user
-        //     ));
-        // }
-
-
-        // $user = json_encode($user);
-        // print_r($user);
+            } 
     }
 
     // PUT

@@ -5,32 +5,23 @@
  **/
 
 
-
-
-
-
-
-
-
-
 class User
 {
-
-
     private string $name;
     private string $surname;
     private string $dni;
-    private DateTime $dateOfBirth;
+    private string $dateOfBirth;
     private string $departmentId;
 
     // Constructor para inicializar propiedades
 
-    public function __construct(string $name, string $surname, string $dni, DateTime $dateOfBirth, string $departmentId)
+    public function __construct(string $name, string $surname, string $dni, string $dateOfBirth, string $departmentId)
     {
+
         $this->name = $name;
         $this->surname = $surname;
         $this->dni = $dni;
-        $this->dateOfBirth = $dateOfBirth;
+        $this->dateOfBirth = $this->formatDate($dateOfBirth);        
         $this->departmentId = $departmentId;
     }
 
@@ -57,35 +48,40 @@ class User
     }
 
     // Setters
-    public function setName(string $name): void {
+    public function setName(string $name): void
+    {
         // if (empty($name)) throw new Exception("El nombre es obligatorio");
         $this->name = ucfirst($name);
     }
 
-    public function setSurname(string $surname): void {
+    public function setSurname(string $surname): void
+    {
         // if (empty($surname)) throw new Exception("El apellido es obligatorio");
         $this->surname = ucfirst($surname);
     }
 
-    public function setDni(string $dni): void {
+    public function setDni(string $dni): void
+    {
         // if (empty($dni)) throw new Exception("El DNI es obligatorio");
         // if (!validarDNI($dni)) throw new Exception("El DNI no es válido");
         $this->dni = $dni;
     }
 
-    public function setDateOfBirth(string $dateOfBirth): void {
+    public function setDateOfBirth(string $dateOfBirth): void
+    {
         // if (empty($dateOfBirth)) throw new Exception("La fecha de nacimiento es obligatoria");
         $this->dateOfBirth = $dateOfBirth;
     }
 
-    public function setDepartmentId(string $departmentId): void {
+    public function setDepartmentId(string $departmentId): void
+    {
         // if (empty($departmentId)) throw new Exception("El departamento es obligatorio");
         $this->departmentId = ucfirst($departmentId);
     }
 
 
     /*********** Funciones necesarias ***********/
-    
+
     function validacionesDeUsuario()
     {
         // Valido los datos insertados en body (formulario) y voy completando el array $arrayErrores con los errores que aparezcan
@@ -109,5 +105,13 @@ class User
         }
         return $arrayErrores;
     }
-}
 
+
+    // Función para convertir la fecha de DD-MM-YYYY a YYYY-MM-DD
+    private function formatDate(string $date): ?string
+    {
+        $dateTime = DateTime::createFromFormat('d/m/Y', $date);
+        return $dateTime ? $dateTime->format('Y-m-d') : null; // para recordarlo: expresión condicional ternaria
+    }
+    
+}

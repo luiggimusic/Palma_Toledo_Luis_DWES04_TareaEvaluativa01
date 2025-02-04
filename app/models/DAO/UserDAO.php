@@ -87,60 +87,41 @@ class UserDAO
         $statement->execute(['dni' => $data['dni']]);
         $count = $statement->fetchColumn();
 
+        // Verifico si el DNI ya está registrado
         if ($count > 0) {
-            // El DNI ya está registrado
             $errores["dni"] = 'El DNI ya está registrado en el sistema';
-            // return [
-            //     'error' => true,
-            //     'message' => 'El DNI ya está registrado en el sistema.'
-            // ];
         }
 
-
-  
         if (empty($errores)) {
-
-
             $query = "INSERT INTO users (name, surname, dni, dateOfBirth, departmentId) 
                   VALUES (:name, :surname, :dni, :dateOfBirth, :departmentId)";
             $statement = $connection->prepare($query);
             $statement->execute([
-                'name' => $data['name'],
-                'surname' => $data['surname'],
-                'dni' => $data['dni'],
-                'dateOfBirth' => $data['dateOfBirth'],
-                'departmentId' => $data['departmentId'],
+                'name' => $userNew->getName(),
+                'surname' => $userNew->getSurname(),
+                'dni' => $userNew->getDni(),
+                'dateOfBirth' => $userNew->getDateOfBirth(),  // Debe estar en formato YYYY-MM-DD
+                'departmentId' => $userNew->getDepartmentId(),
             ]);
 
-
-            // Obtener el último ID insertado
+            // Obtengo el último ID insertado para luego poder mostrarlo en la respuesta
             $lastId = $connection->lastInsertId();
 
-            // Recuperar el usuario recién insertado
+            // Recupero el usuario recién insertado
             $query = "SELECT * FROM users WHERE id = :id";
             $statement = $connection->prepare($query);
             $statement->execute(['id' => $lastId]);
             $user = $statement->fetch(PDO::FETCH_ASSOC);
-
-
-
-            if ($user == null) {
-                print_r($errores);
-                return null;
-            } else {
-                // var_dump($user);
-                return $user;
-            }
-        } // cierre del empty errores 
-        else {
-
-            
-        $errores = json_encode($errores);
-   
-            print_r($errores);
+            return $user;
+        } else {
+           $this->sendJsonResponse(new ApiResponse(
+                status: 'error',
+                code: 400,
+                message: $errores,
+                data: null
+            ));
             return null;
         }
-
     }
 
     // PUT
@@ -160,5 +141,14 @@ class UserDAO
         // $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 
+    }
+
+
+
+    private function sendJsonResponse($apiResponse)
+    {
+        header('Content-Type: application/json');
+        http_response_code($apiResponse->getCode());
+        echo $apiResponse->toJSON();
     }
 }
