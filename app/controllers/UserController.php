@@ -75,21 +75,25 @@ class UserController
     // POST
     function createUser($data)
     {
-        // Creo instancia del modelo User
-        $userNew = new User(
-            $data["name"] ?? "",
-            $data["surname"] ?? "",
-            $data["dni"] ?? "",
-            $data["dateOfBirth"] ?? "",
-            $data["departmentId"] ?? ""
-        );
-        // Valido datos antes de la inserción
-        $errores = $userNew->validacionesDeUsuario();
+        // // Creo instancia del modelo User
+        // $userNew = new User(
+        //     $data["name"] ?? "",
+        //     $data["surname"] ?? "",
+        //     $data["dni"] ?? "",
+        //     $data["dateOfBirth"] ?? "",
+        //     $data["departmentId"] ?? ""
+        // );
+        // // Valido datos antes de la inserción
+        // $errores = $userNew->validacionesDeUsuario();
 
-        var_dump($errores);
-        if (empty($errores) && isset($user)) {
 
-            $user = $this->userDAO->createUser($data);
+
+        $user = $this->userDAO->createUser($data);
+        
+        
+        // var_dump($errores);
+        if (isset($user)) {
+
             // var_dump($user);
             // if (isset($user)) {
                 return $this->sendJsonResponse(new ApiResponse(
@@ -103,7 +107,7 @@ class UserController
                     status: 'not success',
                     code: 500,
                     message: 'Error al crear el usuario',
-                    data: null
+                    data: $user
                 ));
             }
         
@@ -134,8 +138,8 @@ class UserController
         // }
 
 
-        $user = json_encode($userNew);
-        print_r($user);
+        // $user = json_encode($user);
+        // print_r($user);
     }
 
     // PUT

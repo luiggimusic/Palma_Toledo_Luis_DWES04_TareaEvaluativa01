@@ -3,17 +3,29 @@
 /** He creado el modelo User.
  * Aquí defino el modelo con su tipo de dato e importo el fichero JSON
  **/
+
+
+
+
+
+
+
+
+
+
 class User
 {
+
+
     private string $name;
     private string $surname;
     private string $dni;
-    private string $dateOfBirth;
+    private DateTime $dateOfBirth;
     private string $departmentId;
 
     // Constructor para inicializar propiedades
 
-    public function __construct(string $name, string $surname, string $dni, string $dateOfBirth, string $departmentId)
+    public function __construct(string $name, string $surname, string $dni, DateTime $dateOfBirth, string $departmentId)
     {
         $this->name = $name;
         $this->surname = $surname;

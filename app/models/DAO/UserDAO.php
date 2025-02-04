@@ -69,66 +69,78 @@ class UserDAO
     {
         $connection = $this->db->getConnection();
 
+        // Creo instancia del modelo User
+        $userNew = new User(
+            $data["name"] ?? "",
+            $data["surname"] ?? "",
+            $data["dni"] ?? "",
+            $data["dateOfBirth"] ?? "",
+            $data["departmentId"] ?? ""
+        );
 
+        // Valido datos antes de la inserción
+        $errores = $userNew->validacionesDeUsuario();
 
-
-
-
-
-
-    // Verificar si el DNI ya existe
-    $query = "SELECT COUNT(*) FROM users WHERE dni = :dni";
-    $statement = $connection->prepare($query);
-    $statement->execute(['dni' => $data['dni']]);
-    $count = $statement->fetchColumn();
-
-    if ($count > 0) {
-        // El DNI ya está registrado
-        return [
-            'error' => true,
-            'message' => 'El DNI ya está registrado en el sistema.'
-        ];
-        
-    }
-
-
-
-
-        $query = "INSERT INTO users (name, surname, dni, dateOfBirth, departmentId) 
-                  VALUES (:name, :surname, :dni, :dateOfBirth, :departmentId)";
+        // Verifico si el DNI ya existe
+        $query = "SELECT COUNT(*) FROM users WHERE dni = :dni";
         $statement = $connection->prepare($query);
-        $statement->execute([
-            'name' => $data['name'],
-            'surname' => $data['surname'],
-            'dni' => $data['dni'],
-            'dateOfBirth' => $data['dateOfBirth'],
-            'departmentId' => $data['departmentId'],
-        ]);
+        $statement->execute(['dni' => $data['dni']]);
+        $count = $statement->fetchColumn();
 
-        //  $user = new User(
-        //         $data['name'],
-        //         $data['surname'],
-        //         $data['dni'],
-        //         $data['dateOfBirth'],
-        //         $data['departmentId'],
-        //     );
+        if ($count > 0) {
+            // El DNI ya está registrado
+            $errores["dni"] = 'El DNI ya está registrado en el sistema';
+            // return [
+            //     'error' => true,
+            //     'message' => 'El DNI ya está registrado en el sistema.'
+            // ];
+        }
 
 
-    // Obtener el último ID insertado
-    $lastId = $connection->lastInsertId();
+  
+        if (empty($errores)) {
 
-    // Recuperar el usuario recién insertado
-    $query = "SELECT * FROM users WHERE id = :id";
-    $statement = $connection->prepare($query);
-    $statement->execute(['id' => $lastId]);
-    $user=$statement->fetch(PDO::FETCH_ASSOC);
+
+            $query = "INSERT INTO users (name, surname, dni, dateOfBirth, departmentId) 
+                  VALUES (:name, :surname, :dni, :dateOfBirth, :departmentId)";
+            $statement = $connection->prepare($query);
+            $statement->execute([
+                'name' => $data['name'],
+                'surname' => $data['surname'],
+                'dni' => $data['dni'],
+                'dateOfBirth' => $data['dateOfBirth'],
+                'departmentId' => $data['departmentId'],
+            ]);
+
+
+            // Obtener el último ID insertado
+            $lastId = $connection->lastInsertId();
+
+            // Recuperar el usuario recién insertado
+            $query = "SELECT * FROM users WHERE id = :id";
+            $statement = $connection->prepare($query);
+            $statement->execute(['id' => $lastId]);
+            $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+
 
             if ($user == null) {
+                print_r($errores);
                 return null;
             } else {
-            // var_dump($user);
-            return $user;
+                // var_dump($user);
+                return $user;
+            }
+        } // cierre del empty errores 
+        else {
+
+            
+        $errores = json_encode($errores);
+   
+            print_r($errores);
+            return null;
         }
+
     }
 
     // PUT
