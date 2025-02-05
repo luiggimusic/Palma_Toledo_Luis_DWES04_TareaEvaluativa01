@@ -76,37 +76,38 @@ class UserController
     function createUser($data)
     {
         $user = $this->userDAO->createUser($data);
-        
+
         if (isset($user)) {
-                return $this->sendJsonResponse(new ApiResponse(
-                    status: 'success',
-                    code: 200,
-                    message: 'Datos cargados correctamente',
-                    data: $user
-                ));
-            } 
+            return $this->sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $user
+            ));
+        }
     }
 
     // PUT
-    function updateUser($id, $data)
-    { // Creo un array asociativo con los datos recibidos
-        // $userData = [
-        //     'id' => $id,
-        //     'name' => $data["name"],
-        //     'surname' => $data["surname"],
-        //     'dni' => $data["dni"],
-        //     'dateOfBirth' => $data["dateOfBirth"],
-        //     'department' => $data["department"]
-        // ];
+    function updateUser($data)
+    {
+echo "luis";
+        var_dump($data['dateOfBirth']);  // Verifica el valor recibido
 
-        // // Llamo al método estático "update" para actualizar al usuario
-        // $success = User::update($id, $userData);
 
-        // if ($success) {
-        //     echo "Status Code: 204 OK\nUsuario actualizado correctamente";
-        // } else {
-        //     echo "Status Code: 409 Conflict\nError al actualizar";
-        // }
+        $user = $this->userDAO->updateUser($data);
+
+    
+
+
+
+        if (isset($user)) {
+            return $this->sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $user
+            ));
+        }
     }
 
     // DELETE

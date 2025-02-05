@@ -6,16 +6,13 @@ require '../app/models/User.php';
 class UserDAO
 {
     private $db;
-
     public function __construct()
     {
         $this->db = DatabaseSingleton::getInstance();
     }
 
     // CRUD
-
     // GET
-
     function getAllUsers()
     {
         $connection = $this->db->getConnection();
@@ -87,7 +84,7 @@ class UserDAO
         $statement->execute(['dni' => $data['dni']]);
         $count = $statement->fetchColumn();
 
-        // Verifico si el DNI ya está registrado
+        // Si el DNI ya existe, añadirá el mensaje de error
         if ($count > 0) {
             $errores["dni"] = 'El DNI ya está registrado en el sistema';
         }
@@ -125,7 +122,69 @@ class UserDAO
     }
 
     // PUT
-    function updateUser($id, $data) {}
+    function updateUser($data) {
+        $connection = $this->db->getConnection();
+
+        // Creo instancia del modelo User
+        $userUpdate = new User(
+            $data["name"] ?? "",
+            $data["surname"] ?? "",
+            $data["dni"] ?? "",
+            $data["dateOfBirth"] ?? "",
+            $data["departmentId"] ?? ""
+        );
+echo  "aqui prueba";
+        var_dump($data["dateOfBirth"]);     
+        
+        // Valido datos antes de la inserción
+        $errores = $userUpdate->validacionesDeUsuario();
+
+        // Verifico si el DNI ya existe
+        // $query = "SELECT COUNT(*) FROM users WHERE dni = :dni";
+        // $statement = $connection->prepare($query);
+        // $statement->execute(['dni' => $data['dni']]);
+        // $count = $statement->fetchColumn();
+
+        // Si el DNI ya existe, añadirá el mensaje de error
+        // if ($count > 0) {
+        //     $errores["dni"] = 'El DNI ya está registrado en el sistema';
+        // }
+
+        if (empty($errores)) {
+            $query = "UPDATE users SET name=:name, surname=:surname, dni=:dni, dateOfBirth=:dateOfBirth, departmentId=:departmentId WHERE dni=:dni]";
+            $statement = $connection->prepare($query);
+            $user=$statement->execute([
+                'name' => $userUpdate->getName(),
+                'surname' => $userUpdate->getSurname(),
+                'dni' => $userUpdate->getDni(),
+                'dateOfBirth' => $userUpdate->getDateOfBirth(), 
+                'departmentId' => $userUpdate->getDepartmentId(),
+            ]);
+
+            // Obtengo el último ID insertado para luego poder mostrarlo en la respuesta
+            // $lastId = $connection->lastInsertId();
+
+            // Recupero el usuario recién insertado
+            // $query = "SELECT * FROM users WHERE id = :id";
+            // $statement = $connection->prepare($query);
+            // $statement->execute(['id' => $lastId]);
+            // $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            var_dump($data["dateOfBirth"]);
+
+
+            return $user;
+        } else {
+           $this->sendJsonResponse(new ApiResponse(
+                status: 'error',
+                code: 400,
+                message: $errores,
+                data: null
+            ));
+            return null;
+        }        
+    }
 
     // DELETE
     function deleteUser($dni)

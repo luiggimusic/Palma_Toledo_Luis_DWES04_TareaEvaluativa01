@@ -1,10 +1,4 @@
 <?php
-
-/** He creado el modelo User.
- * Aquí defino el modelo con su tipo de dato e importo el fichero JSON
- **/
-
-
 class User
 {
     private string $name;

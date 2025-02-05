@@ -30,10 +30,10 @@ $router->add('/public/user/create', array(
     'action' => 'createUser'
 ));
 
-// $router->add('/public/user/update/{id}', array(
-//     'controller' => 'UserController',
-//     'action' => 'updateUser'
-// ));
+$router->add('/public/user/update', array(
+    'controller' => 'UserController',
+    'action' => 'updateUser'
+));
 
 $router->add('/public/user/delete/{id}', array(
     'controller' => 'UserController',
