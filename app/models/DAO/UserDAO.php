@@ -111,7 +111,7 @@ class UserDAO
             $user = $statement->fetch(PDO::FETCH_ASSOC);
             return $user;
         } else {
-           $this->sendJsonResponse(new ApiResponse(
+            $this->sendJsonResponse(new ApiResponse(
                 status: 'error',
                 code: 400,
                 message: $errores,
@@ -122,22 +122,41 @@ class UserDAO
     }
 
     // PUT
-    function updateUser($data) {
+    function updateUser($data)
+    {
         $connection = $this->db->getConnection();
 
         // Creo instancia del modelo User
-        $userUpdate = new User(
-            $data["name"] ?? "",
-            $data["surname"] ?? "",
-            $data["dni"] ?? "",
-            $data["dateOfBirth"] ?? "",
-            $data["departmentId"] ?? ""
+        $user = new User(
+            $data["name"],
+            $data["surname"],
+            $data["dni"],
+            $data["dateOfBirth"],
+            $data["departmentId"]
         );
-echo  "aqui prueba";
-        var_dump($data["dateOfBirth"]);     
-        
+
+        // Uso los setters para actualizar los datos
+        if (isset($data['name'])) {
+            $user->setName($data['name']);
+        }
+        if (isset($data['surname'])) {
+            $user->setSurname($data['surname']);
+        }
+        if (isset($data['dni'])) {
+            $user->setDni($data['dni']);
+        }
+        if (isset($data['dateOfBirth'])) {
+            $user->setDateOfBirth($data['dateOfBirth']);
+        }
+        if (isset($data['departmentId'])) {
+            $user->setDepartmentId($data['departmentId']);
+        }
+
+
+
+
         // Valido datos antes de la inserción
-        $errores = $userUpdate->validacionesDeUsuario();
+        $errores = $user->validacionesDeUsuario();
 
         // Verifico si el DNI ya existe
         // $query = "SELECT COUNT(*) FROM users WHERE dni = :dni";
@@ -151,15 +170,17 @@ echo  "aqui prueba";
         // }
 
         if (empty($errores)) {
-            $query = "UPDATE users SET name=:name, surname=:surname, dni=:dni, dateOfBirth=:dateOfBirth, departmentId=:departmentId WHERE dni=:dni]";
+            $query = "UPDATE users SET name=:name, surname=:surname, dateOfBirth=:dateOfBirth, departmentId=:departmentId WHERE dni=:dni";
             $statement = $connection->prepare($query);
-            $user=$statement->execute([
-                'name' => $userUpdate->getName(),
-                'surname' => $userUpdate->getSurname(),
-                'dni' => $userUpdate->getDni(),
-                'dateOfBirth' => $userUpdate->getDateOfBirth(), 
-                'departmentId' => $userUpdate->getDepartmentId(),
+            $userUpdate = $statement->execute([
+                'name' => $user->getName(),
+                'surname' => $user->getSurname(),
+                'dni' => $user->getDni(),  // Asegúrate de descomentar esta línea si es necesario
+                'dateOfBirth' => $user->getDateOfBirth(),
+                'departmentId' => $user->getDepartmentId(),
             ]);
+
+
 
             // Obtengo el último ID insertado para luego poder mostrarlo en la respuesta
             // $lastId = $connection->lastInsertId();
@@ -170,20 +191,16 @@ echo  "aqui prueba";
             // $statement->execute(['id' => $lastId]);
             // $user = $statement->fetch(PDO::FETCH_ASSOC);
 
-
-            var_dump($data["dateOfBirth"]);
-
-
-            return $user;
+            return $userUpdate;
         } else {
-           $this->sendJsonResponse(new ApiResponse(
+            $this->sendJsonResponse(new ApiResponse(
                 status: 'error',
                 code: 400,
                 message: $errores,
                 data: null
             ));
             return null;
-        }        
+        }
     }
 
     // DELETE

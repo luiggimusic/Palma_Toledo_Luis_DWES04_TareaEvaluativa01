@@ -90,10 +90,6 @@ class UserController
     // PUT
     function updateUser($data)
     {
-echo "luis";
-        var_dump($data['dateOfBirth']);  // Verifica el valor recibido
-
-
         $user = $this->userDAO->updateUser($data);
 
     
