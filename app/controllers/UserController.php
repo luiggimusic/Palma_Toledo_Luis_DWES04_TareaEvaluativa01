@@ -5,13 +5,7 @@ header('Content-Type: application/json'); // le indico al cliente que la respues
 
 require '../app/models/DAO/UserDAO.php';
 require '../app/utils/ApiResponse.php';
-require '../app/helpers/arrayHelper.php';
-
-
-
-
-// require_once '../app/models/User.php'; // cargo el modelo User
-// require_once '../app/helpers/arrayHelper.php'; // cargo el fichero con las funciones que me permitirán trabajar con los arrays
+require '../app/helpers/helper.php';
 
 class UserController
 {
@@ -26,7 +20,6 @@ class UserController
     // GET
     public function getAllUsers()
     {
-        // $userDAO = new UserDAO();
         $users = $this->userDAO->getAllUsers();
 
         if (isset($users)) {
@@ -92,10 +85,6 @@ class UserController
     {
         $user = $this->userDAO->updateUser($data);
 
-    
-
-
-
         if (isset($user)) {
             return $this->sendJsonResponse(new ApiResponse(
                 status: 'success',
@@ -107,19 +96,9 @@ class UserController
     }
 
     // DELETE
-    static function deleteUser($id)
+    static function deleteUser($data)
     {
-        // $success = User::delete($id);
 
-        // if ($success) {
-        //     echo "Status Code: 204 OK\nUsuario eliminado";
-        // } else {
-        //     echo "Status Code: 409 Conflict\nError al eliminar";
-        // }
-
-        $userDAO = new UserDAO();
-        $users = $userDAO->deleteUser($id);
-        // echo json_encode($users);
     }
 
     private function sendJsonResponse($apiResponse)
