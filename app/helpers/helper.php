@@ -19,3 +19,12 @@ function formatDate(string $date): ?string
     $dateTime = DateTime::createFromFormat('d/m/Y', $date);
     return $dateTime ? $dateTime->format('Y-m-d') : null; // para recordarlo: expresión condicional ternaria
 }
+
+
+// Este método controla la respuestas
+function sendJsonResponse($apiResponse)
+{
+    header('Content-Type: application/json');
+    http_response_code($apiResponse->getCode());
+    echo $apiResponse->toJSON();
+}

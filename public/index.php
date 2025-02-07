@@ -35,7 +35,7 @@ $router->add('/public/user/update', array(
     'action' => 'updateUser'
 ));
 
-$router->add('/public/user/delete/{id}', array(
+$router->add('/public/user/delete', array(
     'controller' => 'UserController',
     'action' => 'deleteUser'
 ));

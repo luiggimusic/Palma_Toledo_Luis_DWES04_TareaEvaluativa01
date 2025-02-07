@@ -22,7 +22,6 @@ class UserDAO
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         $usersDTO = [];
-
         foreach ($result as $user) {
             $usersDTO[] = new UserDTO(
                 $user['dni'],
@@ -75,14 +74,8 @@ class UserDAO
 
         $connection = $this->db->getConnection();
 
-        // Verifico si el DNI ya existe
-        $query = "SELECT COUNT(*) FROM users WHERE dni = :dni";
-        $statement = $connection->prepare($query);
-        $statement->execute(['dni' => $data['dni']]);
-        $count = $statement->fetchColumn();
-
         // Si el DNI ya existe, añadirá el mensaje de error
-        if ($count > 0) {
+        if (Self::dniVerify($connection, $data)) {
             $errores["dni"] = 'El DNI ya está registrado en el sistema';
         }
 
@@ -108,7 +101,7 @@ class UserDAO
             $user = Self::showUserData($connection, $data);
             return $user;
         } else {
-            $this->sendJsonResponse(new ApiResponse(
+            sendJsonResponse(new ApiResponse(
                 status: 'error',
                 code: 400,
                 message: $errores,
@@ -121,11 +114,6 @@ class UserDAO
     // PUT
     function updateUser($data)
     {
-
-
-
-
-
         $userService = new UserService();
         $user = $userService->createUserObject($data);
         $connection = $this->db->getConnection();
@@ -133,6 +121,12 @@ class UserDAO
         // Valido datos antes de la inserción
         $errores = $user->validacionesDeUsuario();
 
+        // Si el DNI no existe, añadirá el mensaje de error
+        if (!Self::dniVerify($connection, $data)) {
+            $errores["dni"] = 'El DNI no está registrado en el sistema';
+        }
+
+        // Si el departmentId no existe, añadirá el mensaje de error
         if (!Self::departmentVerify($connection, $data)) {
             $errores["departmentId"] = 'El departamento ID: ' . strtoupper($data['departmentId']) .
                 ' no existe en el sistema';
@@ -152,7 +146,7 @@ class UserDAO
             $user = Self::showUserData($connection, $data);
             return $user;
         } else {
-            $this->sendJsonResponse(new ApiResponse(
+            sendJsonResponse(new ApiResponse(
                 status: 'error',
                 code: 400,
                 message: $errores,
@@ -160,22 +154,39 @@ class UserDAO
             ));
             return null;
         }
-
-
     }
 
     // DELETE
     function deleteUser($data)
     {
         $connection = $this->db->getConnection();
-        $query = "DELETE * FROM users WHERE dni = :dni";
-        $statement = $connection->prepare($query);
-        $statement->execute(['dni' => $data['dni']]);
 
+        // Obtengo los datos del usuario para mostrarlo en la respuesta, 
+        // en este caso antes de eliminar la tupla
+        $user = Self::showUserData($connection, $data);
 
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        // Si el DNI no existe, añadirá el mensaje de error
+        $errores = [];
+        if (!Self::dniVerify($connection, $data)) {
+            $errores["dni"] = 'El DNI no está registrado en el sistema';
+        }
+        if (empty($errores)) {
+            $query = "DELETE FROM users WHERE dni = :dni";
+            $statement = $connection->prepare($query);
+            $statement->bindParam(':dni', $data['dni'], PDO::PARAM_STR);
+            $statement->execute();
 
-
+            // Una vez ejecutada la eliminación, envío los datos del elemento eliminado para que se vean en la respuesta
+            return $user;
+        } else {
+            sendJsonResponse(new ApiResponse(
+                status: 'error',
+                code: 400,
+                message: $errores,
+                data: null
+            ));
+            return null;
+        }
     }
 
     private function departmentVerify($connection, $data)
@@ -192,6 +203,20 @@ class UserDAO
         }
     }
 
+    private function dniVerify($connection, $data)
+    {
+        // Verifico si el DNI ya existe
+        $query = "SELECT COUNT(*) FROM users WHERE dni = :dni";
+        $statement = $connection->prepare($query);
+        $statement->execute(['dni' => $data['dni']]);
+        $count = $statement->fetchColumn();
+
+        // Si encuentra el DNI, devuelve true
+        if ($count == 1) {
+            return true;
+        }
+    }
+
     private function showUserData($connection, $data)
     {
         // Obtengo los datos del usuario actualizado para mostrarlo en la respuesta
@@ -200,14 +225,5 @@ class UserDAO
         $statement->execute(['dni' => $data['dni']]);
         $userData = $statement->fetch(PDO::FETCH_ASSOC);
         return $userData;
-    }
-
-
-
-    private function sendJsonResponse($apiResponse)
-    {
-        header('Content-Type: application/json');
-        http_response_code($apiResponse->getCode());
-        echo $apiResponse->toJSON();
     }
 }

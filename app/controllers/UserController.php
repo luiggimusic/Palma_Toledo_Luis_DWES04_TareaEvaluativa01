@@ -16,28 +16,26 @@ class UserController
         $this->userDAO = new UserDAO();
     }
 
-
     // GET
     public function getAllUsers()
     {
         $users = $this->userDAO->getAllUsers();
 
         if (isset($users)) {
-            return $this->sendJsonResponse(new ApiResponse(
+            return sendJsonResponse(new ApiResponse(
                 status: 'success',
                 code: 200,
                 message: 'Datos cargados correctamente',
                 data: $users
             ));
         } else {
-            return $this->sendJsonResponse(new ApiResponse(
+            return sendJsonResponse(new ApiResponse(
                 status: 'not success',
                 code: 500,
                 message: 'Error al leer los datos',
                 data: $users
             ));
         }
-
         $users = json_encode($users);
         print_r($users);
     }
@@ -47,14 +45,14 @@ class UserController
         $users = $this->userDAO->getUserById($id);
 
         if (isset($users)) {
-            return $this->sendJsonResponse(new ApiResponse(
+            return sendJsonResponse(new ApiResponse(
                 status: 'success',
                 code: 200,
                 message: 'Datos cargados correctamente',
                 data: $users
             ));
         } else {
-            return $this->sendJsonResponse(new ApiResponse(
+            return sendJsonResponse(new ApiResponse(
                 status: 'not success',
                 code: 500,
                 message: 'Usuario no encontrado',
@@ -71,7 +69,7 @@ class UserController
         $user = $this->userDAO->createUser($data);
 
         if (isset($user)) {
-            return $this->sendJsonResponse(new ApiResponse(
+            return sendJsonResponse(new ApiResponse(
                 status: 'success',
                 code: 200,
                 message: 'Datos cargados correctamente',
@@ -86,7 +84,7 @@ class UserController
         $user = $this->userDAO->updateUser($data);
 
         if (isset($user)) {
-            return $this->sendJsonResponse(new ApiResponse(
+            return sendJsonResponse(new ApiResponse(
                 status: 'success',
                 code: 200,
                 message: 'Datos cargados correctamente',
@@ -96,15 +94,18 @@ class UserController
     }
 
     // DELETE
-    static function deleteUser($data)
+    function deleteUser($data)
     {
 
-    }
+        $user = $this->userDAO->deleteUser($data);
 
-    private function sendJsonResponse($apiResponse)
-    {
-        header('Content-Type: application/json');
-        http_response_code($apiResponse->getCode());
-        echo $apiResponse->toJSON();
+        if (isset($user)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Usuario eliminado correctamente',
+                data: $user
+            ));
+        }
     }
 }
