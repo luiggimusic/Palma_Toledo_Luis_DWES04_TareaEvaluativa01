@@ -2,7 +2,7 @@
 
 require '../app/core/Router.php';
 require '../app/controllers/UserController.php';
-// require '../app/controllers/CategoryController.php';
+require '../app/controllers/ProductCategoryController.php';
 // require '../app/controllers/DepartmentController.php';
 // require '../app/controllers/ProductController.php';
 // require '../app/controllers/MovementController.php';
@@ -94,30 +94,30 @@ $router->add('/public/user/delete', array(
 // ));
 
 // /***************************** Product Category ****************************/
-// $router->add('/public/category/get', array(
-//     'controller' => 'CategoryController',
-//     'action' => 'getAllCategories'
-// ));
+$router->add('/public/productcategory/get', array(
+    'controller' => 'ProductCategoryController',
+    'action' => 'getAllProductCategories'
+));
 
-// $router->add('/public/category/get/{id}', array(
-//     'controller' => 'CategoryController',
-//     'action' => 'getCategoryById'
-// ));
+$router->add('/public/productcategory/get/{id}', array(
+    'controller' => 'ProductCategoryController',
+    'action' => 'getProductCategoryById'
+));
 
-// $router->add('/public/category/create', array(
-//     'controller' => 'CategoryController',
-//     'action' => 'createCategory'
-// ));
+$router->add('/public/productcategory/create', array(
+    'controller' => 'ProductCategoryController',
+    'action' => 'createCategory'
+));
 
-// $router->add('/public/category/update/{id}', array(
-//     'controller' => 'CategoryController',
-//     'action' => 'updateCategory'
-// ));
+$router->add('/public/productcategory/update/{id}', array(
+    'controller' => 'ProductCategoryController',
+    'action' => 'updateProductCategory'
+));
 
-// $router->add('/public/category/delete/{id}', array(
-//     'controller' => 'CategoryController',
-//     'action' => 'deleteCategory'
-// ));
+$router->add('/public/productcategory/delete/{id}', array(
+    'controller' => 'ProductCategoryController',
+    'action' => 'deleteProductCategory'
+));
 
 // /***************************** Movement ****************************/
 // $router->add('/public/movement/get', array(

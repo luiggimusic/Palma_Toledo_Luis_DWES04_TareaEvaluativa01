@@ -11,7 +11,7 @@ class UserController
 {
     private $userDAO;
 
-    public function __construct()
+    function __construct()
     {
         $this->userDAO = new UserDAO();
     }
@@ -96,7 +96,6 @@ class UserController
     // DELETE
     function deleteUser($data)
     {
-
         $user = $this->userDAO->deleteUser($data);
 
         if (isset($user)) {

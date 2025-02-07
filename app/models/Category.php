@@ -4,24 +4,18 @@
  **/
 class Category
 {
-    private int $id;
     private string $categoryId;
     private string $categoryName;
 
     // Constructor para inicializar propiedades
 
-    public function __construct(int $id, string $categoryId, string $categoryName)
+    public function __construct(string $categoryId, string $categoryName)
     {
-        $this->id = $id;
         $this->categoryId = $categoryId;
         $this->categoryName = $categoryName;
     }
 
     // Getters
-    public function getId()
-    {
-        return $this->id;
-    }
     public function getCategoryId()
     {
         return $this->categoryId;
@@ -32,10 +26,6 @@ class Category
     }
 
     // Setters
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
     public function setCategoryId($categoryId)
     {
         $this->categoryId = $categoryId;
@@ -60,12 +50,6 @@ class Category
         $filePath = self::getFilePath(); // Ruta del archivo JSON
         $jsonData = file_get_contents($filePath); // Leo el archivo JSON
         return $jsonData; // Retorno el array con los datos
-    }
-
-    public static function getById($id)
-    {
-        $dataArray = self::datosJsonParseados();
-        return getElementById($dataArray, $id);
     }
 
     public static function create($newData)

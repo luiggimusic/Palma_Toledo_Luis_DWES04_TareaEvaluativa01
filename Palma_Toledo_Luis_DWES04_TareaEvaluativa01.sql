@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS `departments`;
 --
 -- Estructura de tabla para la tabla `productsCategories`
 --
-CREATE TABLE IF NOT EXISTS `productsCategories` (
+CREATE TABLE IF NOT EXISTS `productCategories` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `categoryId` VARCHAR(5) PRIMARY KEY,
     `categoryName` VARCHAR(30) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `productsCategories` (
 -- Volcado de datos para la tabla `productsCategories`
 --
 INSERT INTO
-    `productsCategories` (`categoryId`, `categoryName`)
+    `productCategories` (`categoryId`, `categoryName`)
 VALUES
     ('PK', 'Packaging'),
     ('FP', 'Finished part'),
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `products` (
     `productCode` VARCHAR(20) PRIMARY KEY,
     `productName` VARCHAR(50) NOT NULL,
     `categoryId` VARCHAR(5) NOT NULL,
-    CONSTRAINT `PROD_CAT_FK` FOREIGN KEY (`categoryId`) REFERENCES `productsCategories` (`categoryId`) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT `PROD_CAT_FK` FOREIGN KEY (`categoryId`) REFERENCES `productCategories` (`categoryId`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `PROD_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 

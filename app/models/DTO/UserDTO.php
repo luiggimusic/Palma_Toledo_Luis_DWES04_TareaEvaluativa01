@@ -4,7 +4,6 @@ class UserDTO implements JsonSerializable{
     private $dni;
     private $name;
     private $surname;
-    // private $departmentId;
     private $departmentName;
 
     public function __construct($dni, $name, $surname, $departmentName)
@@ -12,7 +11,6 @@ class UserDTO implements JsonSerializable{
         $this->dni = $dni;
         $this->name = $name;
         $this->surname = $surname;
-        // $this->departmentId = $departmentId;
         $this->departmentName = $departmentName;
     }
 
