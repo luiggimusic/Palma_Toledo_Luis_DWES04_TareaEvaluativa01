@@ -3,9 +3,8 @@
 declare(strict_types=1);
 header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
 
-require_once '../app/models/DAO/ProductCategoryDAO.php'; // cargo el modelo
-// require '../app/utils/ApiResponse.php';
-require_once '../app/helpers/helper.php'; // cargo el fichero con las funciones que me permitirán trabajar con los arrays
+require_once '../app/models/DAO/ProductCategoryDAO.php'; 
+require_once '../app/helpers/helper.php'; 
 
 class ProductCategoryController
 {
@@ -63,50 +62,47 @@ class ProductCategoryController
     }
 
     // POST
-    function createCategory($data)
+    function createProductCategory($data)
     {
-        $categoryData = [
-            'categoryId' => $data["categoryId"],
-            'categoryName' => $data["categoryName"],
-        ];
+        $productCategory = $this->ProductCategoryDAO->createProductCategory($data);
 
-        // Llamo al método estático "create"
-        $success = Category::create($categoryData);
-
-        if ($success) {
-            echo "Status Code: 201 OK\nCategoria creada correctamente";
-        } else {
-            echo "Status Code: 409 Conflict\nNo se ha creado la categoría";
+        if (isset($productCategory)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $productCategory
+            ));
         }
     }
 
     // PUT
-    function updateCategory($id, $data)
+    function updateProductCategory($data)
     {
-        $categoryData = [
-            'id' => $data["id"],
-            'categoryId' => $data["categoryId"],
-            'categoryName' => $data["categoryName"],
-        ];
-        // Llamo al método estático "update" para actualizar
-        $success = Category::update($id, $data);
+        $productCategory = $this->ProductCategoryDAO->updateProductCategory($data);
 
-        if ($success) {
-            echo "Status Code: 204 OK\nCategoría actualizada correctamente";
-        } else {
-            echo "Status Code: 409 Conflict\nError al actualizar";
+        if (isset($productCategory)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $productCategory
+            ));
         }
     }
 
     // DELETE
-    function deleteCategory($id)
+    function deleteProductCategory($data)
     {
-        $success = Category::delete($id);
+        $productCategory = $this->ProductCategoryDAO->deleteProductCategory($data);
 
-        if ($success) {
-            echo "Status Code: 204 OK\nCategoría eliminada";
-        } else {
-            echo "Status Code: 409 Conflict\nError al eliminar";
+        if (isset($productCategory)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Categoría de producto eliminada correctamente',
+                data: $productCategory
+            ));
         }
     }
 }

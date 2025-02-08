@@ -1,11 +1,11 @@
 <?php
 
 declare(strict_types=1);
-header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
 
-require '../app/models/DAO/UserDAO.php';
-require '../app/utils/ApiResponse.php';
-require '../app/helpers/helper.php';
+header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
+require_once '../app/models/DAO/UserDAO.php';
+require_once '../app/utils/ApiResponse.php';
+require_once '../app/helpers/helper.php';
 
 class UserController
 {

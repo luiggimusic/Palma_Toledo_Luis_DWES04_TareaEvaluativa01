@@ -2,44 +2,15 @@
 
 class ProductEntity
 {
-    private int $id;
     private string $productCode;
-    private string $productNAme;
-    private string $batchNumber;
-    private string $location;
-    private int $quantity;
-    private string $category;
+    private string $productName;
+    private string $productCategoryId;
 
-    // Constructor para inicializar propiedades
-
-    public function __construct(int $id, string $productCode, string $productNAme, string $batchNumber, string $location, int $quantity, string $category)
+    public function __construct(string $productCode, string $productName, string $productCategoryId)
     {
-        $this->id = $id;
         $this->productCode = $productCode;
-        $this->productNAme = $productNAme;
-        $this->batchNumber = $batchNumber;
-        $this->location = $location;
-        $this->quantity = $quantity;
-        $this->category = $category;
-    }
-
-
-    /**
-     * Get the value of id
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     */
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
+        $this->productName = $productName;
+        $this->productCategoryId = $productCategoryId;
     }
 
     /**
@@ -55,7 +26,7 @@ class ProductEntity
      */
     public function setProductCode(string $productCode): self
     {
-        $this->productCode = $productCode;
+        $this->productCode = strtoupper($productCode);
 
         return $this;
     }
@@ -63,71 +34,17 @@ class ProductEntity
     /**
      * Get the value of productNAme
      */
-    public function getProductNAme(): string
+    public function getProductName(): string
     {
-        return $this->productNAme;
+        return $this->productName;
     }
 
     /**
      * Set the value of productNAme
      */
-    public function setProductNAme(string $productNAme): self
+    public function setProductName(string $productName): self
     {
-        $this->productNAme = $productNAme;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of batchNumber
-     */
-    public function getBatchNumber(): string
-    {
-        return $this->batchNumber;
-    }
-
-    /**
-     * Set the value of batchNumber
-     */
-    public function setBatchNumber(string $batchNumber): self
-    {
-        $this->batchNumber = $batchNumber;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of location
-     */
-    public function getLocation(): string
-    {
-        return $this->location;
-    }
-
-    /**
-     * Set the value of location
-     */
-    public function setLocation(string $location): self
-    {
-        $this->location = $location;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of quantity
-     */
-    public function getQuantity(): int
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * Set the value of quantity
-     */
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
+        $this->productName = strtoupper($productName);
 
         return $this;
     }
@@ -135,18 +52,35 @@ class ProductEntity
     /**
      * Get the value of category
      */
-    public function getCategory(): string
+    public function getProductCategoryId(): string
     {
-        return $this->category;
+        return $this->productCategoryId;
     }
 
     /**
      * Set the value of category
      */
-    public function setCategory(string $category): self
+    public function setProductCategoryId(string $productCategoryId): self
     {
-        $this->category = $category;
+        $this->productCategoryId = strtoupper($productCategoryId);
 
         return $this;
     }
+
+    /*********** Funciones necesarias ***********/
+    function validacionesDeProducto()
+    {
+        // Valido los datos insertados en body (formulario) y voy completando el array $arrayErrores con los errores que aparezcan
+        $arrayErrores = array();
+        if (empty($this->productCode)) {
+            $arrayErrores["productCode"] = 'El código del producto es obligatorio';
+        }
+        if (empty($this->productName)) {
+            $arrayErrores["productName"] = 'El nombre del producto es obligatorio';
+        }
+        if (empty($this->productCategoryId)) {
+            $arrayErrores["productCategoryId"] = 'El ID de categoría del producto es obligatorio';
+        }
+        return $arrayErrores;
+    }     
 }

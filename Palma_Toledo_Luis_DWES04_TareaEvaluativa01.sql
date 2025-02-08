@@ -8,30 +8,30 @@ USE palma_toledo_luis_dwes04_tareaevaluativa01;
 
 
 DROP TABLE IF EXISTS `movements`;
-DROP TABLE IF EXISTS `movementsTypes`;
+DROP TABLE IF EXISTS `movementTypes`;
 DROP TABLE IF EXISTS `inventory`;
 DROP TABLE IF EXISTS `products`;
-DROP TABLE IF EXISTS `productsCategories`;
+DROP TABLE IF EXISTS `productCategories`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `departments`;
 
 
 -- --------------------------------------------------------
 --
--- Estructura de tabla para la tabla `productsCategories`
+-- Estructura de tabla para la tabla `productCategories`
 --
 CREATE TABLE IF NOT EXISTS `productCategories` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `categoryId` VARCHAR(5) PRIMARY KEY,
-    `categoryName` VARCHAR(30) NOT NULL,
+    `productCategoryId` VARCHAR(5) PRIMARY KEY,
+    `productCategoryName` VARCHAR(30) NOT NULL,
     CONSTRAINT `PRODCAT_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 --
--- Volcado de datos para la tabla `productsCategories`
+-- Volcado de datos para la tabla `productCategories`
 --
 INSERT INTO
-    `productCategories` (`categoryId`, `categoryName`)
+    `productCategories` (`productCategoryId`, `productCategoryName`)
 VALUES
     ('PK', 'Packaging'),
     ('FP', 'Finished part'),
@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS `products` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `productCode` VARCHAR(20) PRIMARY KEY,
     `productName` VARCHAR(50) NOT NULL,
-    `categoryId` VARCHAR(5) NOT NULL,
-    CONSTRAINT `PROD_CAT_FK` FOREIGN KEY (`categoryId`) REFERENCES `productCategories` (`categoryId`) ON DELETE CASCADE ON UPDATE CASCADE,
+    `productCategoryId` VARCHAR(5) NOT NULL,
+    CONSTRAINT `PROD_CAT_FK` FOREIGN KEY (`productCategoryId`) REFERENCES `productCategories` (`productCategoryId`) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `PROD_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `products` (
 -- Volcado de datos para la tabla `products`
 --
 INSERT INTO
-    `products` (`productCode`, `productName`, `categoryId`)
+    `products` (`productCode`, `productName`, `productCategoryId`)
     VALUES
         ('3001-01-0005','CAIXA 280X198X120MM','PK'),
         ('3001-01-0015','SEPARADOR 450X270','PK'),
@@ -77,10 +77,10 @@ INSERT INTO
 --
 -- Estructura de tabla para la tabla `movementsTypes`
 --
-CREATE TABLE IF NOT EXISTS `movementsTypes` (
+CREATE TABLE IF NOT EXISTS `movementTypes` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `movementId` VARCHAR(10) PRIMARY KEY,
-    `movementName` VARCHAR(30),
+    `movementTypeId` VARCHAR(10) PRIMARY KEY,
+    `movementTypeName` VARCHAR(30),
     CONSTRAINT `MOVTYP_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `movementsTypes` (
 -- Volcado de datos para la tabla `movementsTypes`
 --
 INSERT INTO
-    `movementsTypes` (`movementId`, `movementName`)
+    `movementTypes` (`movementTypeId`, `movementTypeName`)
     VALUES
         ('PU', 'Purchase'),
         ('SA', 'Sale'),
@@ -110,12 +110,12 @@ CREATE TABLE IF NOT EXISTS `movements` (
     `fromLocation` VARCHAR(10) DEFAULT NULL,
     `toLocation` VARCHAR(10) DEFAULT NULL,
     `quantity` INT NOT NULL,
-    `movementId` VARCHAR(10) NOT NULL,
+    `movementTypeId` VARCHAR(10) NOT NULL,
     `movementDate` DATE NOT NULL,
     `customer` VARCHAR(20) DEFAULT NULL,
     `supplier` VARCHAR(20) DEFAULT NULL,
     CONSTRAINT `MOV_PROD_FK` FOREIGN KEY (`productCode`) REFERENCES `products` (`productCode`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    CONSTRAINT `MOV_MTYPES_FK` FOREIGN KEY (`movementId`) REFERENCES `movementsTypes` (`movementId`),
+    CONSTRAINT `MOV_MTYPES_FK` FOREIGN KEY (`movementTypeId`) REFERENCES `movementTypes` (`movementTypeId`),
     CONSTRAINT `MOV_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `movements` (
 -- Volcado de datos para la tabla `movements`
 --
 
-INSERT INTO `movements` (`productCode`, `fromBatchNumber`, `toBatchNumber`, `fromLocation`, `toLocation`, `quantity`, `movementId`, `movementDate`, `customer`, `supplier`)
+INSERT INTO `movements` (`productCode`, `fromBatchNumber`, `toBatchNumber`, `fromLocation`, `toLocation`, `quantity`, `movementTypeId`, `movementDate`, `customer`, `supplier`)
     VALUES 
         ('3001-01-0015', '10000254', '10000254', '', 'EMBAL', 50, 'PU', '2024/03/15', '', 'Rido'),
         ('FC1N0F2S1A02', '20240809-221', '', 'ENCAIXAT', '', 145, 'SA', '2024/04/04', 'Hanon', ''),

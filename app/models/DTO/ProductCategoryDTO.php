@@ -1,37 +1,27 @@
 <?php
 
 class ProductCategoryDTO implements JsonSerializable{
-    private string $categoryId;
-    private string $categoryName;
+    private string $productCategoryId;
+    private string $productCategoryName;
 
-    public function __construct(string $categoryId, string $categoryName)
+    public function __construct(string $productCategoryId, string $productCategoryName)
     {
-        $this->categoryId = $categoryId;
-        $this->categoryName = $categoryName;
+        $this->productCategoryId = $productCategoryId;
+        $this->productCategoryName = $productCategoryName;
     }
 
     // Getters
-    public function getCategoryId()
+    public function getProductCategoryId()
     {
-        return $this->categoryId;
+        return $this->productCategoryId;
     }
-    public function getCategoryName()
+    public function getProductCategoryName()
     {
-        return $this->categoryName;
-    }
-
-    // Setters
-    public function setCategoryId($categoryId)
-    {
-        $this->categoryId = $categoryId;
-    }
-    public function setCategoryName($categoryName)
-    {
-        $this->categoryName = $categoryName;
+        return $this->productCategoryName;
     }
 
     public function jsonSerialize(): mixed
     {
         return get_object_vars($this);
-    }    
+    } 
 }

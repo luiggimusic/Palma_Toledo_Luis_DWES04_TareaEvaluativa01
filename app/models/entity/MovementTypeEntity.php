@@ -1,72 +1,65 @@
 <?php
 
-class MovementType
+class MovementTypeEntity
 {
-    private int $id;
-    private string $movementId;
-    private string $movementName;
+    private string $movementTypeId;
+    private string $movementTypeName;
 
     // Constructor para inicializar propiedades
 
-    public function __construct(int $id, string $movementId, string $movementName)
+    public function __construct(string $movementTypeId, string $movementTypeName)
     {
-        $this->id = $id;
-        $this->movementId = $movementId;
-        $this->movementName = $movementName;
-    }
-
-
-    /**
-     * Get the value of id
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     */
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
+        $this->movementTypeId = $movementTypeId;
+        $this->movementTypeName = $movementTypeName;
     }
 
     /**
      * Get the value of movementId
      */
-    public function getMovementId(): string
+    public function getMovementTypeId(): string
     {
-        return $this->movementId;
+        return $this->movementTypeId;
     }
 
     /**
-     * Set the value of movementId
+     * Set the value of movementTypeId
      */
-    public function setMovementId(string $movementId): self
+    public function setMovementTypeId(string $movementTypeId): self
     {
-        $this->movementId = $movementId;
+        $this->movementTypeId = strtoupper($movementTypeId);
 
         return $this;
     }
 
     /**
-     * Get the value of movementName
+     * Get the value of movementTypeName
      */
-    public function getMovementName(): string
+    public function getMovementTypeName(): string
     {
-        return $this->movementName;
+        return $this->movementTypeName;
     }
 
     /**
-     * Set the value of movementName
+     * Set the value of movementTypeName
      */
-    public function setMovementName(string $movementName): self
+    public function setMovementTypeName(string $movementTypeName): self
     {
-        $this->movementName = $movementName;
+        $this->movementTypeName = ucfirst($movementTypeName);
 
         return $this;
     }
+
+    /*********** Funciones necesarias ***********/
+    function validacionesDeMovementType()
+    {
+        // Valido los datos insertados en body (formulario) y voy completando el array $arrayErrores con los errores que aparezcan
+        $arrayErrores = array();
+        if (empty($this->movementTypeId)) {
+            $arrayErrores["movementTypeId"] = 'El ID del tipo de movimiento es obligatorio';
+        }
+        if (empty($this->movementTypeName)) {
+            $arrayErrores["movementTypeName"] = 'El nombre del tipo de movimiento es obligatorio';
+        }
+        return $arrayErrores;
+    }    
 }

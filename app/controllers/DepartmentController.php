@@ -1,78 +1,108 @@
 <?php
 
 declare(strict_types=1);
+header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
 
-require_once '../app/models/Department.php'; // cargo el modelo
-require_once '../app/helpers/arrayHelper.php'; // cargo el fichero con las funciones que me permitirán trabajar con los arrays
-
+require_once '../app/models/DAO/DepartmentDAO.php'; 
+require_once '../app/helpers/helper.php'; 
 
 class DepartmentController
 {
-    function __construct() {}
+    private $DepartmentDAO;
+
+    function __construct() {
+        $this->DepartmentDAO = new DepartmentDAO();
+    }
 
     // GET
     function getAllDepartments()
     {
-        $dataArray = Department::getAll();
-        print_r($dataArray);
+        $departments = $this->DepartmentDAO->getAllDepartments();
+
+        if (isset($departments)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $departments
+            ));
+        } else {
+            return sendJsonResponse(new ApiResponse(
+                status: 'not success',
+                code: 500,
+                message: 'Error al leer los datos',
+                data: $departments
+            ));
+        }
+        $departments = json_encode($departments);
+        print_r($departments);
     }
 
     function getDepartmentById($id)
     {
-        $success = Department::getById($id);
-        if ($success) {
-            echo "Status Code: 200 OK\nRegistro encontrado \n";
-            print_r($success);
+        $department = $this->DepartmentDAO->getDepartmentById($id);
+
+        if (isset($department)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $department
+            ));
         } else {
-            echo "Status Code: 409 Conflict\nNo se ha encontrado el departamento";
+            return sendJsonResponse(new ApiResponse(
+                status: 'not success',
+                code: 500,
+                message: 'ID del departamento no encontrado',
+                data: $department
+            ));
         }
+        $department = json_encode($department);
+        print_r($department);
     }
 
     // POST
     function createDepartment($data)
     {
-        $departmentData = [
-            'departmenId' => $data["departmenId"],
-            'departmentName' => $data["departmentName"],
-        ];
+        $department = $this->DepartmentDAO->createDepartment($data);
 
-        // Llamo al método estático "create"
-        $success = Department::create($departmentData);
-
-        if ($success) {
-            echo "Status Code: 201 OK\nDepartamento creado correctamente";
-        } else {
-            echo "Status Code: 409 Conflict\nNo se ha creado el departamento";
+        if (isset($department)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $department
+            ));
         }
     }
 
     // PUT
-    function updateDepartment($id, $data)
+    function updateDepartment($data)
     {
-        $departmentData = [
-            'id' => $data["id"],
-            'departmenId' => $data["departmenId"],
-            'departmentName' => $data["departmentName"],
-        ];
-        // Llamo al método estático "update" para actualizar
-        $success = Department::update($id, $data);
+        $department = $this->DepartmentDAO->updateDepartment($data);
 
-        if ($success) {
-            echo "Status Code: 204 OK\nDepartamento actualizado correctamente";
-        } else {
-            echo "Status Code: 409 Conflict\nError al actualizar";
+        if (isset($department)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $department
+            ));
         }
     }
 
     // DELETE
-    function deleteDepartment($id)
+    function deleteDepartment($data)
     {
-        $success = Department::delete($id);
+        $department = $this->DepartmentDAO->deleteDepartment($data);
 
-        if ($success) {
-            echo "Status Code: 204 OK\nDepartamento eliminado";
-        } else {
-            echo "Status Code: 409 Conflict\nError al eliminar";
+        if (isset($department)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Departamento eliminado correctamente',
+                data: $department
+            ));
         }
     }
 }

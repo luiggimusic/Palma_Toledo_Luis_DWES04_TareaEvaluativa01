@@ -2,7 +2,7 @@
 class UserService {
     public function createUserObject($data) {
         // Creo instancia del modelo User
-        $user = new User("","","",'01/01/2023',"");
+        $user = new UserEntity("","","",'01/01/2023',"");
 
         // Uso los setters para actualizar los datos
         if (isset($data['name'])) {

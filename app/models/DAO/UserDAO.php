@@ -1,7 +1,7 @@
 <?php
 require '../app/core/DatabaseSingleton.php';
 require '../app/models/DTO/UserDTO.php';
-require '../app/models/User.php';
+require '../app/models/entity/UserEntity.php';
 require '../app/services/UserService.php';
 
 class UserDAO

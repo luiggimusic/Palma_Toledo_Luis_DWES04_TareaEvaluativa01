@@ -2,52 +2,31 @@
 
 class DepartmentEntity
 {
-    private int $id;
-    private string $departmenId;
+    private string $departmentId;
     private string $departmentName;
 
     // Constructor para inicializar propiedades
 
-    public function __construct(int $id, string $departmenId, string $departmentName)
+    public function __construct(string $departmentId, string $departmentName)
     {
-        $this->id = $id;
-        $this->departmenId = $departmenId;
+        $this->departmentId = $departmentId;
         $this->departmentName = $departmentName;
-    }
-
-
-    /**
-     * Get the value of id
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set the value of id
-     */
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**
      * Get the value of departmenId
      */
-    public function getDepartmenId(): string
+    public function getDepartmentId(): string
     {
-        return $this->departmenId;
+        return $this->departmentId;
     }
 
     /**
      * Set the value of departmenId
      */
-    public function setDepartmenId(string $departmenId): self
+    public function setDepartmentId(string $departmentId): self
     {
-        $this->departmenId = $departmenId;
+        $this->departmentId = $departmentId;
 
         return $this;
     }
@@ -68,5 +47,19 @@ class DepartmentEntity
         $this->departmentName = $departmentName;
 
         return $this;
+    }
+
+    /*********** Funciones necesarias ***********/
+    function validacionesDeDepartment()
+    {
+        // Valido los datos insertados en body (formulario) y voy completando el array $arrayErrores con los errores que aparezcan
+        $arrayErrores = array();
+        if (empty($this->departmentId)) {
+            $arrayErrores["departmentId"] = 'El ID del departamento es obligatorio';
+        }
+        if (empty($this->departmentName)) {
+            $arrayErrores["departmentName"] = 'El nombre del departamento es obligatorio';
+        }
+        return $arrayErrores;
     }
 }
