@@ -1,37 +1,44 @@
 <?php
-class MovementEntity
+
+class MovementDTO implements JsonSerializable
 {
     private string $productCode;
+    private string $productName;
     private string $fromBatchNumber;
     private string $toBatchNumber;
     private string $fromLocation;
     private string $toLocation;
     private int $quantity;
     private string $movementTypeId;
+    private string $movementTypeName;
     private string $movementDate;
     private string $customer;
     private string $supplier;
 
     public function __construct(
         string $productCode,
+        string $productName,
         string $fromBatchNumber,
         string $toBatchNumber,
         string $fromLocation,
         string $toLocation,
         int $quantity,
         string $movementTypeId,
+        string $movementTypeName,
         string $movementDate,
         string $customer,
         string $supplier,
     ) {
         $this->productCode = $productCode;
+        $this->productName = $productName;
         $this->fromBatchNumber = $fromBatchNumber;
         $this->toBatchNumber = $toBatchNumber;
         $this->fromLocation = $fromLocation;
         $this->toLocation = $toLocation;
         $this->quantity = $quantity;
         $this->movementTypeId = $movementTypeId;
-        $this->movementDate = formatDate($movementDate);
+        $this->movementTypeName = $movementTypeName;
+        $this->movementDate = $movementDate;
         $this->customer = $customer;
         $this->supplier = $supplier;
     }
@@ -50,6 +57,24 @@ class MovementEntity
     public function setProductCode(string $productCode): self
     {
         $this->productCode = $productCode;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of productName
+     */
+    public function getProductName(): string
+    {
+        return $this->productName;
+    }
+
+    /**
+     * Set the value of productName
+     */
+    public function setProductName(string $productName): self
+    {
+        $this->productName = $productName;
 
         return $this;
     }
@@ -147,7 +172,7 @@ class MovementEntity
     /**
      * Get the value of movementTypeId
      */
-    public function getmovementTypeId(): string
+    public function getMovementTypeId(): string
     {
         return $this->movementTypeId;
     }
@@ -155,9 +180,27 @@ class MovementEntity
     /**
      * Set the value of movementTypeId
      */
-    public function setmovementTypeId(string $movementTypeId): self
+    public function setMovementTypeId(string $movementTypeId): self
     {
         $this->movementTypeId = $movementTypeId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of movementTypeName
+     */
+    public function getMovementTypeName(): string
+    {
+        return $this->movementTypeName;
+    }
+
+    /**
+     * Set the value of movementTypeName
+     */
+    public function setMovementTypeName(string $movementTypeName): self
+    {
+        $this->movementTypeName = $movementTypeName;
 
         return $this;
     }
@@ -216,24 +259,8 @@ class MovementEntity
         return $this;
     }
 
-    /*********** Funciones necesarias ***********/
-    function validacionesDeMovement()
+    public function jsonSerialize(): mixed
     {
-        // Valido los datos insertados en body (formulario) y voy completando el array $arrayErrores con los errores que aparezcan
-        // Estos datos son obligatorios independientemente del tipo de movimiento: purchase, sale o inventoryTransfer
-        $arrayErrores = array();
-        if (empty($this->getProductCode())) {
-            $arrayErrores["productCode"] = 'El código del producto es obligatorio';
-        }
-        if ($this->getQuantity() <=0) {
-            $arrayErrores["quantity"] = 'La cantidad debe ser mayor que 0';
-        }
-        if (empty($this->getmovementTypeId())) {
-            $arrayErrores["movementTypeId"] = 'El tipo de movimiento es obligatorio';
-        }
-        if (empty($this->getMovementDate())) {
-            $arrayErrores["movementDate"] = 'La fecha del movimiento es obligatoria';
-        }
-        return $arrayErrores;
+        return get_object_vars($this);
     }
 }

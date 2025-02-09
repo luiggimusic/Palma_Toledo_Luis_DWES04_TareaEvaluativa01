@@ -68,7 +68,7 @@ class MovementTypeDAO
         $connection = $this->db->getConnection();
 
         // Si el movementTypeId ya existe, añadirá el mensaje de error
-        if (Self::movementTypeIdVerify($connection, $data)) {
+        if (movementTypeIdVerify($connection, $data)) {
             $errores["movementTypeId"] = 'El ID del tipo de movimiento ya está registrado en el sistema';
         }        
 
@@ -106,7 +106,7 @@ class MovementTypeDAO
         $connection = $this->db->getConnection();
 
         // Si el movementTypeId no existe, añadirá el mensaje de error
-        if (!Self::movementTypeIdVerify($connection, $data)) {
+        if (!movementTypeIdVerify($connection, $data)) {
             $errores["movementTypeId"] = 'El ID del tipo de movimiento no está registrado en el sistema';
         }            
 
@@ -147,7 +147,7 @@ class MovementTypeDAO
         // }        
 
          // Si el movementTypeId no existe, añadirá el mensaje de error
-         if (!Self::movementTypeIdVerify($connection, $data)) {
+         if (!movementTypeIdVerify($connection, $data)) {
             $errores["movementTypeId"] = 'El ID del tipo de movimiento no está registrado en el sistema';
         }   
         if (empty($errores)) {
@@ -168,17 +168,7 @@ class MovementTypeDAO
             return null;
         }
     }
-    private function movementTypeIdVerify($connection, $data)
-    {
-        // Verifico si el movementTypeId está registrado en la tabla movementTypes
-        $query = "SELECT COUNT(*) FROM movementTypes WHERE movementTypeId = :movementTypeId";
-        $statement = $connection->prepare($query);
-        $statement->execute(['movementTypeId' => $data['movementTypeId']]);
-        $count = $statement->fetchColumn();
-        if ($count == 1) {
-            return true;
-        }
-    }
+
 
     // private function movementTypeIdInUseVerify($connection, $data)
     // {

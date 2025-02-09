@@ -73,7 +73,7 @@ class ProductDAO
         $connection = $this->db->getConnection();
 
         // Si el código de producto ya existe, añadirá el mensaje de error
-        if (Self::productCodeVerify($connection, $data)) {
+        if (productCodeVerify($connection, $data)) {
             $errores["productCode"] = 'El código de producto ya está registrado en el sistema';
         }
 
@@ -118,7 +118,7 @@ class ProductDAO
 
         // Valido los datos antes de la inserción
         // Si el productCode no existe, añadirá el mensaje de error
-        if (!Self::productCodeVerify($connection, $data)) {
+        if (!productCodeVerify($connection, $data)) {
             $errores["productCode"] = 'El código de producto no está registrado en el sistema';
         }
         // Verifico si productCategoryId está registrado en la tabla productCategories
@@ -162,7 +162,7 @@ class ProductDAO
         $product = Self::showProductData($connection, $data);
 
         // Si el productCode no existe, añadirá el mensaje de error
-        if (!Self::productCodeVerify($connection, $data)) {
+        if (!productCodeVerify($connection, $data)) {
             $errores["productCode"] = 'El código de producto no está registrado en el sistema';
         }
    
@@ -193,22 +193,6 @@ class ProductDAO
 
         if ($statement) {
             $statement->execute(['productCategoryId' => $data['productCategoryId']]);
-            $count = $statement->fetchColumn();
-            return $count == 1;
-        } else {
-            // Controlo el error si la preparación de la consulta falla
-            throw new Exception("Error al preparar la consulta SQL.");
-        }
-    }
-
-    private function productCodeVerify($connection, $data)
-    {
-        // Verifico si el productCode ya existe
-        $query = "SELECT COUNT(*) FROM products WHERE productCode = :productCode";
-        $statement = $connection->prepare($query);
-
-        if ($statement) {
-            $statement->execute(['productCode' => $data['productCode']]);
             $count = $statement->fetchColumn();
             return $count == 1;
         } else {

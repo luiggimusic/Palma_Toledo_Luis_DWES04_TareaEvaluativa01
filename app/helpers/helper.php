@@ -20,11 +20,39 @@ function formatDate(string $date): ?string
     return $dateTime ? $dateTime->format('Y-m-d') : null; // para recordarlo: expresión condicional ternaria
 }
 
-
 // Este método controla la respuestas
 function sendJsonResponse($apiResponse)
 {
     header('Content-Type: application/json');
     http_response_code($apiResponse->getCode());
     echo $apiResponse->toJSON();
+}
+
+// Verifica si el código de producto existe en la BBDD
+function productCodeVerify($connection, $data)
+{
+    $query = "SELECT COUNT(*) FROM products WHERE productCode = :productCode";
+    $statement = $connection->prepare($query);
+
+    if ($statement) {
+        $statement->execute(['productCode' => $data['productCode']]);
+        $count = $statement->fetchColumn();
+        return $count == 1;
+    } else {
+        // Controlo el error si la preparación de la consulta falla
+        throw new Exception("Error al preparar la consulta SQL.");
+    }
+}
+
+// Verifica si el ID del tipo de movimiento existe en la BBDD
+
+function movementTypeIdVerify($connection, $data)
+{
+    $query = "SELECT COUNT(*) FROM movementTypes WHERE movementTypeId = :movementTypeId";
+    $statement = $connection->prepare($query);
+    $statement->execute(['movementTypeId' => $data['movementTypeId']]);
+    $count = $statement->fetchColumn();
+    if ($count == 1) {
+        return true;
+    }
 }

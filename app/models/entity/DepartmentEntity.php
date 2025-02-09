@@ -5,8 +5,6 @@ class DepartmentEntity
     private string $departmentId;
     private string $departmentName;
 
-    // Constructor para inicializar propiedades
-
     public function __construct(string $departmentId, string $departmentName)
     {
         $this->departmentId = $departmentId;
