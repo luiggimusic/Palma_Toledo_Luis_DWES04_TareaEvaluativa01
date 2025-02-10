@@ -6,14 +6,15 @@ header('Content-Type: application/json'); // le indico al cliente que la respues
 require_once '../app/models/DAO/UserDAO.php';
 require_once '../app/utils/ApiResponse.php';
 require_once '../app/helpers/helper.php';
-
 class UserController
 {
     private $userDAO;
+    private $input; // Capturo el cuerpo de la solicitud
 
     function __construct()
     {
         $this->userDAO = new UserDAO();
+        $this->input = json_decode(file_get_contents('php://input'),true);
     }
 
     // GET
@@ -64,9 +65,9 @@ class UserController
     }
 
     // POST
-    function createUser($data)
+    function createUser()
     {
-        $user = $this->userDAO->createUser($data);
+        $user = $this->userDAO->createUser($this->input);
 
         if (isset($user)) {
             return sendJsonResponse(new ApiResponse(
@@ -79,9 +80,9 @@ class UserController
     }
 
     // PUT
-    function updateUser($data)
+    function updateUser()
     {
-        $user = $this->userDAO->updateUser($data);
+        $user = $this->userDAO->updateUser($this->input);
 
         if (isset($user)) {
             return sendJsonResponse(new ApiResponse(
@@ -94,9 +95,9 @@ class UserController
     }
 
     // DELETE
-    function deleteUser($data)
+    function deleteUser()
     {
-        $user = $this->userDAO->deleteUser($data);
+        $user = $this->userDAO->deleteUser($this->input);
 
         if (isset($user)) {
             return sendJsonResponse(new ApiResponse(

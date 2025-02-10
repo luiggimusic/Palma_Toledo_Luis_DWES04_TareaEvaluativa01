@@ -1,4 +1,5 @@
 <?php
+
 require '../app/core/DatabaseSingleton.php';
 require '../app/models/DTO/UserDTO.php';
 require '../app/models/entity/UserEntity.php';

@@ -11,7 +11,7 @@ require '../app/controllers/MovementTypeController.php';
 $url = $_SERVER['QUERY_STRING'];
 // // echo 'URL = ' . $url . '<br>';
 
-// $content = file_get_contents("php://input");
+$content = file_get_contents("php://input");
 $router = new Router();
 
 // /***************************** UserController ****************************/
@@ -35,7 +35,7 @@ $router->add('/public/user/update', array(
     'action' => 'updateUser'
 ));
 
-$router->add('/public/user/delete/{id}', array(
+$router->add('/public/user/delete', array(
     'controller' => 'UserController',
     'action' => 'deleteUser'
 ));
