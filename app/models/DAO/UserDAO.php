@@ -65,23 +65,17 @@ class UserDAO
     // POST
     function createUser($data)
     {
-        // Con userService creo un objeto para evitar código en los otros métodos
-        $userService = new UserService();
+        $connection = $this->db->getConnection();
 
+        // Con userService creo un objeto para evitar código en los otros métodos
+        $userService = new UserService($connection);
         $user = $userService->createUserObject($data);
 
         // Valido los datos antes de la inserción
-        $errores = $user->validacionesDeUsuario();
-
-        $connection = $this->db->getConnection();
-
-        // Si el DNI ya existe, añadirá el mensaje de error
-        if (Self::dniVerify($connection, $data)) {
-            $errores["dni"] = 'El DNI ya está registrado en el sistema';
-        }
+        $errores = $user->validacionesDeUsuario($userService,false);
 
         // Verifico si el departmentId está registrado en la tabla departments
-        if (!Self::departmentVerify($connection, $data)) {
+        if (!departmentIdVerify($connection, $data)) {
             $errores["departmentId"] = 'El departamento ID: ' . strtoupper($data['departmentId']) .
                 ' no existe en el sistema';
         }
@@ -103,7 +97,7 @@ class UserDAO
             return $user;
         } else {
             sendJsonResponse(new ApiResponse(
-                status: 'error',
+                status: 'not success',
                 code: 400,
                 message: $errores,
                 data: null
@@ -115,20 +109,15 @@ class UserDAO
     // PUT
     function updateUser($data)
     {
-        $userService = new UserService();
-        $user = $userService->createUserObject($data);
         $connection = $this->db->getConnection();
+        $userService = new UserService($connection);
+        $user = $userService->createUserObject($data);
 
         // Valido datos antes de la inserción
-        $errores = $user->validacionesDeUsuario();
-
-        // Si el DNI no existe, añadirá el mensaje de error
-        if (!Self::dniVerify($connection, $data)) {
-            $errores["dni"] = 'El DNI no está registrado en el sistema';
-        }
+        $errores = $user->validacionesDeUsuario($userService,true);
 
         // Si el departmentId no existe, añadirá el mensaje de error
-        if (!Self::departmentVerify($connection, $data)) {
+        if (!departmentIdVerify($connection, $data)) {
             $errores["departmentId"] = 'El departamento ID: ' . strtoupper($data['departmentId']) .
                 ' no existe en el sistema';
         }
@@ -148,7 +137,7 @@ class UserDAO
             return $user;
         } else {
             sendJsonResponse(new ApiResponse(
-                status: 'error',
+                status: 'not success',
                 code: 400,
                 message: $errores,
                 data: null
@@ -161,14 +150,16 @@ class UserDAO
     function deleteUser($data)
     {
         $connection = $this->db->getConnection();
+        $userService = new UserService($connection);
+        $user = $userService->createUserObject($data);
 
         // Obtengo los datos del usuario para mostrarlo en la respuesta, 
         // en este caso antes de eliminar la tupla
-        $user = Self::showUserData($connection, $data);
+        $userDeleteData = Self::showUserData($connection, $data);
 
         // Si el DNI no existe, añadirá el mensaje de error
         $errores = [];
-        if (!Self::dniVerify($connection, $data)) {
+        if (!$userService->dniVerify( $user)) {
             $errores["dni"] = 'El DNI no está registrado en el sistema';
         }
         if (empty($errores)) {
@@ -178,43 +169,15 @@ class UserDAO
             $statement->execute();
 
             // Una vez ejecutada la eliminación, envío los datos del elemento eliminado para que se vean en la respuesta
-            return $user;
+            return $userDeleteData;
         } else {
             sendJsonResponse(new ApiResponse(
-                status: 'error',
+                status: 'not success',
                 code: 400,
                 message: $errores,
                 data: null
             ));
             return null;
-        }
-    }
-
-    private function departmentVerify($connection, $data)
-    {
-        // Verifico si el departmentId está registrado en la tabla departments
-        $query = "SELECT COUNT(*) FROM departments WHERE departmentId = :departmentId";
-        $statement = $connection->prepare($query);
-        $statement->execute(['departmentId' => $data['departmentId']]);
-        $count = $statement->fetchColumn();
-
-        // Si encuentra departmentId, devuelve true
-        if ($count == 1) {
-            return true;
-        }
-    }
-
-    private function dniVerify($connection, $data)
-    {
-        // Verifico si el DNI ya existe
-        $query = "SELECT COUNT(*) FROM users WHERE dni = :dni";
-        $statement = $connection->prepare($query);
-        $statement->execute(['dni' => $data['dni']]);
-        $count = $statement->fetchColumn();
-
-        // Si encuentra el DNI, devuelve true
-        if ($count == 1) {
-            return true;
         }
     }
 

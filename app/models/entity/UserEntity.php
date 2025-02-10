@@ -9,7 +9,6 @@ class UserEntity
 
     public function __construct(string $name, string $surname, string $dni, string $dateOfBirth, string $departmentId)
     {
-
         $this->name = $name;
         $this->surname = $surname;
         $this->dni = $dni;
@@ -66,7 +65,7 @@ class UserEntity
     }
 
     /*********** Funciones necesarias ***********/
-    function validacionesDeUsuario()
+    function validacionesDeUsuario(UserService $userService, bool $stopOnExistingDni)
     {
         // Valido los datos insertados en body (formulario) y voy completando el array $arrayErrores con los errores que aparezcan
         $arrayErrores = array();
@@ -78,9 +77,14 @@ class UserEntity
         }
         if (empty($this->dni)) {
             $arrayErrores["dni"] = 'El DNI es obligatorio';
-        } elseif (!validarDNI($this->dni)) {
+        } elseif (!$userService->dniVerify($this) && $stopOnExistingDni) {
+            $arrayErrores["dni"] = 'El DNI no está registrado en el sistema';
+        } elseif ($userService->dniVerify($this) && !$stopOnExistingDni){
+                $arrayErrores["dni"] = 'El DNI ya está registrado en el sistema';
+            }
+         elseif (!validarDNI($this->dni)) {
             $arrayErrores["dni"] = 'El DNI no es válido';
-        }
+        }        
         if (empty($this->dateOfBirth)) {
             $arrayErrores["dateOfBirth"] = 'La fecha de nacimiento es obligatoria';
         }

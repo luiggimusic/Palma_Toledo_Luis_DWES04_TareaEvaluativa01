@@ -9,9 +9,11 @@ require_once '../app/helpers/helper.php';
 class DepartmentController
 {
     private $DepartmentDAO;
+    private $input; // Capturo el cuerpo de la solicitud
 
     function __construct() {
-        $this->DepartmentDAO = new DepartmentDAO();
+        $this->DepartmentDAO = new DepartmentDAO();    
+        $this->input = json_decode(file_get_contents('php://input'),true);
     }
 
     // GET
@@ -62,9 +64,9 @@ class DepartmentController
     }
 
     // POST
-    function createDepartment($data)
+    function createDepartment()
     {
-        $department = $this->DepartmentDAO->createDepartment($data);
+        $department = $this->DepartmentDAO->createDepartment($this->input);
 
         if (isset($department)) {
             return sendJsonResponse(new ApiResponse(
@@ -77,9 +79,9 @@ class DepartmentController
     }
 
     // PUT
-    function updateDepartment($data)
+    function updateDepartment()
     {
-        $department = $this->DepartmentDAO->updateDepartment($data);
+        $department = $this->DepartmentDAO->updateDepartment($this->input);
 
         if (isset($department)) {
             return sendJsonResponse(new ApiResponse(
@@ -92,7 +94,7 @@ class DepartmentController
     }
 
     // DELETE
-    function deleteDepartment($data)
+    function deleteDepartment()
     {
         $department = $this->DepartmentDAO->deleteDepartment($data);
 

@@ -9,9 +9,11 @@ require_once '../app/helpers/helper.php';
 class ProductCategoryController
 {
     private $ProductCategoryDAO;
+    private $input; // Capturo el cuerpo de la solicitud
 
     function __construct() {
         $this->ProductCategoryDAO = new ProductCategoryDAO();
+        $this->input = json_decode(file_get_contents('php://input'),true);
     }
 
     // GET
@@ -62,9 +64,9 @@ class ProductCategoryController
     }
 
     // POST
-    function createProductCategory($data)
+    function createProductCategory()
     {
-        $productCategory = $this->ProductCategoryDAO->createProductCategory($data);
+        $productCategory = $this->ProductCategoryDAO->createProductCategory($this->input);
 
         if (isset($productCategory)) {
             return sendJsonResponse(new ApiResponse(
@@ -77,9 +79,9 @@ class ProductCategoryController
     }
 
     // PUT
-    function updateProductCategory($data)
+    function updateProductCategory()
     {
-        $productCategory = $this->ProductCategoryDAO->updateProductCategory($data);
+        $productCategory = $this->ProductCategoryDAO->updateProductCategory($this->input);
 
         if (isset($productCategory)) {
             return sendJsonResponse(new ApiResponse(
@@ -92,9 +94,9 @@ class ProductCategoryController
     }
 
     // DELETE
-    function deleteProductCategory($data)
+    function deleteProductCategory()
     {
-        $productCategory = $this->ProductCategoryDAO->deleteProductCategory($data);
+        $productCategory = $this->ProductCategoryDAO->deleteProductCategory($this->input);
 
         if (isset($productCategory)) {
             return sendJsonResponse(new ApiResponse(

@@ -44,8 +44,7 @@ function productCodeVerify($connection, $data)
     }
 }
 
-// Verifica si el ID del tipo de movimiento existe en la BBDD
-
+// Verifico si el ID del tipo de movimiento existe en la BBDD
 function movementTypeIdVerify($connection, $data)
 {
     $query = "SELECT COUNT(*) FROM movementTypes WHERE movementTypeId = :movementTypeId";
@@ -54,5 +53,21 @@ function movementTypeIdVerify($connection, $data)
     $count = $statement->fetchColumn();
     if ($count == 1) {
         return true;
+    }
+}
+
+// Verifico si el departmentId está registrado en la tabla departments
+function departmentIdVerify($connection, $data)
+{
+    // Verifico si el departmentId está registrado en la tabla departments
+    $query = "SELECT COUNT(*) FROM departments WHERE departmentId = :departmentId";
+    $statement = $connection->prepare($query);
+    if ($statement) {
+        $statement->execute(['departmentId' => $data['departmentId']]);
+        $count = $statement->fetchColumn();
+        return $count == 1;
+    } else {
+        // Controlo el error si la preparación de la consulta falla
+        throw new Exception("Error al preparar la consulta SQL.");
     }
 }

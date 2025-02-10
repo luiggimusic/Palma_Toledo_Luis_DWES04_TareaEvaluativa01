@@ -101,12 +101,12 @@ class DepartmentDAO
         $departmentService = new DepartmentService();
         $department = $departmentService->createDepartmentObject($data);
 
-        // Valido los datos antes de la inserción
-        $errores = $department->validacionesDeDepartment();
         $connection = $this->db->getConnection();
-
+        
+        // Valido los datos antes de la inserción
         // Si el departmentId no existe, añadirá el mensaje de error
-        if (!Self::departmentIdVerify($connection, $data)) {
+        $errores = $department->validacionesDeDepartment();
+        if (!departmentIdVerify($connection, $data)) {
             $errores["departmentId"] = 'El ID del departamento no está registrado en el sistema';
         }
 
@@ -147,7 +147,7 @@ class DepartmentDAO
         }
 
         // Si el departmentId no existe, añadirá el mensaje de error
-        if (!Self::departmentIdVerify($connection, $data)) {
+        if (!departmentIdVerify($connection, $data)) {
             $errores["departmentId"] = 'El ID del departamento no está registrado en el sistema';
         }
         if (empty($errores)) {
@@ -166,20 +166,6 @@ class DepartmentDAO
                 data: null
             ));
             return null;
-        }
-    }
-    private function departmentIdVerify($connection, $data)
-    {
-        // Verifico si el departmentId está registrado en la tabla departments
-        $query = "SELECT COUNT(*) FROM departments WHERE departmentId = :departmentId";
-        $statement = $connection->prepare($query);
-        if ($statement) {
-            $statement->execute(['departmentId' => $data['departmentId']]);
-            $count = $statement->fetchColumn();
-            return $count == 1;
-        } else {
-            // Controlo el error si la preparación de la consulta falla
-            throw new Exception("Error al preparar la consulta SQL.");
         }
     }
 

@@ -1,8 +1,16 @@
 <?php
-class UserService {
-    public function createUserObject($data) {
+class UserService
+{
+    private $connection;
+
+    public function __construct($connection)
+    {
+        $this->connection = $connection;
+    }
+    public function createUserObject($data)
+    {
         // Creo instancia del modelo User
-        $user = new UserEntity("","","",'01/01/2023',"");
+        $user = new UserEntity("", "", "", '01/01/2023', "");
 
         // Uso los setters para actualizar los datos
         if (isset($data['name'])) {
@@ -23,5 +31,14 @@ class UserService {
 
         // Devuelvo el objeto User
         return $user;
+    }
+
+    public function dniVerify(UserEntity $user)
+    {
+        $query = "SELECT COUNT(*) FROM users WHERE dni = :dni";
+        $statement = $this->connection->prepare($query);
+        $statement->execute(['dni' => $user->getDni()]);
+        $count = $statement->fetchColumn();
+        return $count == 1;
     }
 }
