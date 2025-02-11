@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
@@ -36,7 +37,8 @@ class MovementController
         print_r($movements);
     }
 
-    function getMovementById($id) {
+    function getMovementById($id)
+    {
         $movement = $this->MovementDAO->getMovementById($id);
 
         if (isset($movement)) {
@@ -55,10 +57,11 @@ class MovementController
             ));
         }
         $movement = json_encode($movement);
-        print_r($movement);        
+        print_r($movement);
     }
 
-    function getMovementByData($data) {
+    function getMovementByData($data)
+    {
         $movement = $this->MovementDAO->getMovementByData($data);
 
         if (isset($movement)) {
@@ -77,11 +80,12 @@ class MovementController
             ));
         }
         $movement = json_encode($movement);
-        print_r($movement);   
+        print_r($movement);
     }
 
     // POST
-    function sale($data) {
+    function sale($data)
+    {
         $movement = $this->MovementDAO->sale($data);
 
         if (isset($movement)) {
@@ -91,10 +95,22 @@ class MovementController
                 message: 'Datos cargados correctamente',
                 data: $movement
             ));
-        }       
+        }
     }
 
-    function purchase($data) {}
+    function purchase($data)
+    {
+        $movement = $this->MovementDAO->purchase($data);
+
+        if (isset($movement)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $movement
+            ));
+        }
+    }
 
     function inventoryTransfer($data) {}
 }

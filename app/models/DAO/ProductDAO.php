@@ -110,13 +110,13 @@ class ProductDAO
     function updateProduct($data)
     {
         $productService = new ProductService();
-
         $product = $productService->createProductObject($data);
 
         $connection = $this->db->getConnection();
 
         // Valido los datos antes de la inserción
         // Si el productCode no existe, añadirá el mensaje de error
+        $errores = $product->validacionesDeProducto();        
         if (!productCodeVerify($connection, $data)) {
             $errores["productCode"] = 'El código de producto no está registrado en el sistema';
         }
@@ -125,8 +125,6 @@ class ProductDAO
             $errores["productCategoryId"] = 'La categoría de producto: ' . strtoupper($data['productCategoryId']) .
                 ' no existe en el sistema';
         }
-
-        $errores = $product->validacionesDeProducto();
 
         if (empty($errores)) {
             $query = "UPDATE products SET productCode=:productCode, productName=:productName, productCategoryId=:productCategoryId WHERE productCode=:productCode";

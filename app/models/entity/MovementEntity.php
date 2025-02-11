@@ -147,7 +147,7 @@ class MovementEntity
     /**
      * Get the value of movementTypeId
      */
-    public function getmovementTypeId(): string
+    public function getMovementTypeId(): string
     {
         return $this->movementTypeId;
     }
@@ -155,7 +155,7 @@ class MovementEntity
     /**
      * Set the value of movementTypeId
      */
-    public function setmovementTypeId(string $movementTypeId): self
+    public function setMovementTypeId(string $movementTypeId): self
     {
         $this->movementTypeId = $movementTypeId;
 
@@ -228,7 +228,7 @@ class MovementEntity
         if ($this->getQuantity() <=0) {
             $arrayErrores["quantity"] = 'La cantidad debe ser mayor que 0';
         }
-        if (empty($this->getmovementTypeId())) {
+        if (empty($this->getMovementTypeId())) {
             $arrayErrores["movementTypeId"] = 'El tipo de movimiento es obligatorio';
         }
         if (empty($this->getMovementDate())) {

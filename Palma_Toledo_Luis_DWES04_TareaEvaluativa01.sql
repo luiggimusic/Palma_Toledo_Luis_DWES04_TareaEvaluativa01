@@ -1,4 +1,4 @@
--- Active: 1738588283297@@127.0.0.1@3306@palma_toledo_luis_dwes04_tareaevaluativa01
+-- Active: 1735228839859@@127.0.0.1@3306@palma_toledo_luis_dwes04_tareaevaluativa01
 --
 -- Base de datos: `Palma_Toledo_Luis_DWES04_TareaEvaluativa01`
 --
@@ -153,7 +153,7 @@ INSERT INTO `movements` (`productCode`, `fromBatchNumber`, `toBatchNumber`, `fro
 --
 CREATE TABLE IF NOT EXISTS `inventory` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `productCode` VARCHAR(20) PRIMARY KEY,
+    `productCode` VARCHAR(20) NOT NULL,
     `batchNumber` VARCHAR(10) DEFAULT NULL,
     `location` VARCHAR(10) DEFAULT NULL,
     `stock` INT NOT NULL,
