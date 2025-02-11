@@ -8,10 +8,12 @@ require_once '../app/helpers/helper.php'; // cargo el fichero con las funciones 
 class ProductController
 {
     private $ProductDAO;
+    private $input; // Capturo el cuerpo de la solicitud
 
     function __construct()
     {
         $this->ProductDAO = new ProductDAO();
+        $this->input = json_decode(file_get_contents('php://input'),true);
     }
 
     // GET
@@ -60,8 +62,8 @@ class ProductController
     }
 
     // POST
-    function createProduct($data) {
-        $product = $this->ProductDAO->createProduct($data);
+    function createProduct() {
+        $product = $this->ProductDAO->createProduct($this->input);
 
         if (isset($product)) {
             return sendJsonResponse(new ApiResponse(
@@ -74,8 +76,8 @@ class ProductController
     }
 
     // PUT
-    function updateProduct($data) {
-        $product = $this->ProductDAO->updateProduct($data);
+    function updateProduct() {
+        $product = $this->ProductDAO->updateProduct($this->input);
 
         if (isset($product)) {
             return sendJsonResponse(new ApiResponse(
@@ -86,8 +88,8 @@ class ProductController
             ));
         } 
     }
-    function deleteProduct($data) {
-        $product = $this->ProductDAO->deleteProduct($data);
+    function deleteProduct() {
+        $product = $this->ProductDAO->deleteProduct($this->input);
 
         if (isset($product)) {
             return sendJsonResponse(new ApiResponse(

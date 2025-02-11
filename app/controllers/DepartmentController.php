@@ -96,7 +96,7 @@ class DepartmentController
     // DELETE
     function deleteDepartment()
     {
-        $department = $this->DepartmentDAO->deleteDepartment($data);
+        $department = $this->DepartmentDAO->deleteDepartment($this->input);
 
         if (isset($department)) {
             return sendJsonResponse(new ApiResponse(

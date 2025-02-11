@@ -1,7 +1,7 @@
 <?php
-require '../app/models/DTO/MovementTypeDTO.php';
-require '../app/models/entity/MovementTypeEntity.php';
-require '../app/services/MovementTypeService.php';
+require_once '../app/models/DTO/MovementTypeDTO.php';
+require_once '../app/models/entity/MovementTypeEntity.php';
+require_once '../app/services/MovementTypeService.php';
 
 class MovementTypeDAO
 {
@@ -142,9 +142,9 @@ class MovementTypeDAO
         $movementType = Self::showmovementTypeData($connection, $data);
 
          // Verifico si el movementTypeId está en uso en otra tabla
-        // if (Self::movementTypeIdInUseVerify($connection, $data)){
-        //     $errores["movementTypeId"] = 'El ID del tipo de movimiento está relacionado a movimientos registrados';
-        // }        
+        if (movementTypeIdInUseVerify($connection, $data)){
+            $errores["movementTypeId"] = 'El ID del tipo de movimiento está relacionado a movimientos registrados';
+        }        
 
          // Si el movementTypeId no existe, añadirá el mensaje de error
          if (!movementTypeIdVerify($connection, $data)) {
@@ -168,19 +168,6 @@ class MovementTypeDAO
             return null;
         }
     }
-
-
-    // private function movementTypeIdInUseVerify($connection, $data)
-    // {
-    //     // Verifico si el movementTypeId está siendo usado en la tabla users
-    //     $query = "SELECT COUNT(*) FROM users WHERE movementTypeId = :movementTypeId";
-    //     $statement = $connection->prepare($query);
-    //     $statement->execute(['movementTypeId' => $data['movementTypeId']]);
-    //     $count = $statement->fetchColumn();
-    //     if ($count == 1) {
-    //         return true;
-    //     }
-    // }
 
     private function showmovementTypeData($connection, $data)
     {

@@ -2,7 +2,6 @@
 require '../app/models/DTO/ProductDTO.php';
 require '../app/models/entity/ProductEntity.php';
 require '../app/services/ProductService.php';
-
 class ProductDAO
 {
     private $db;

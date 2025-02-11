@@ -8,7 +8,7 @@ USE palma_toledo_luis_dwes04_tareaevaluativa01;
 
 
 DROP TABLE IF EXISTS `movements`;
-DROP TABLE IF EXISTS `movementTypes`;
+DROP TABLE IF EXISTS `movementtTypes`;
 DROP TABLE IF EXISTS `inventory`;
 DROP TABLE IF EXISTS `products`;
 DROP TABLE IF EXISTS `productCategories`;

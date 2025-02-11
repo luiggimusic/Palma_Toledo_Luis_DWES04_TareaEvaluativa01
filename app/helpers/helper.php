@@ -37,7 +37,7 @@ function productCodeVerify($connection, $data)
     if ($statement) {
         $statement->execute(['productCode' => $data['productCode']]);
         $count = $statement->fetchColumn();
-        return $count == 1;
+        return $count > 0;
     } else {
         // Controlo el error si la preparación de la consulta falla
         throw new Exception("Error al preparar la consulta SQL.");
@@ -51,9 +51,8 @@ function movementTypeIdVerify($connection, $data)
     $statement = $connection->prepare($query);
     $statement->execute(['movementTypeId' => $data['movementTypeId']]);
     $count = $statement->fetchColumn();
-    if ($count == 1) {
-        return true;
-    }
+    return $count > 0;
+
 }
 
 // Verifico si el departmentId está registrado en la tabla departments
@@ -65,9 +64,19 @@ function departmentIdVerify($connection, $data)
     if ($statement) {
         $statement->execute(['departmentId' => $data['departmentId']]);
         $count = $statement->fetchColumn();
-        return $count == 1;
+        return $count > 0;
     } else {
         // Controlo el error si la preparación de la consulta falla
         throw new Exception("Error al preparar la consulta SQL.");
     }
+}
+
+// Verifico si el movementTypeId está siendo usado en la tabla movements
+function movementTypeIdInUseVerify($connection, $data)
+{
+    $query = "SELECT COUNT(*) FROM movements WHERE movementTypeId = :movementTypeId";
+    $statement = $connection->prepare($query);
+    $statement->execute(['movementTypeId' => $data['movementTypeId']]);
+    $count = $statement->fetchColumn();
+    return $count > 0;
 }

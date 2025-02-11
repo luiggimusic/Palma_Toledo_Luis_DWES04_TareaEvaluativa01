@@ -68,7 +68,7 @@ class DepartmentDAO
         $connection = $this->db->getConnection();
 
         // Si el departmentId ya existe, añadirá el mensaje de error
-        if (Self::departmentIdVerify($connection, $data)) {
+        if (departmentIdVerify($connection, $data)) {
             $errores["departmentId"] = 'El ID del departamento ya está registrado en el sistema';
         }
 
@@ -142,7 +142,7 @@ class DepartmentDAO
         $department = Self::showDepartmentData($connection, $data);
 
         // Verifico si el departmentId está en uso en la tabla users
-        if (!Self::departmentIdInUseVerify($connection, $data)) {
+        if (Self::departmentIdInUseVerify($connection, $data)) {
             $errores["departmentId"] = 'El ID del departamento está relacionado con un usuario';
         }
 

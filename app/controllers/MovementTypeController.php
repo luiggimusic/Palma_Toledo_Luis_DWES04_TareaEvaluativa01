@@ -1,17 +1,19 @@
 <?php
-
 declare(strict_types=1);
-header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
 
+header('Content-Type: application/json'); // le indico al cliente que la respuesta es de tipo JSON.
 require_once '../app/models/DAO/MovementTypeDAO.php';
 require_once '../app/helpers/helper.php';
 
 class MovementTypeController
 {
     private $MovementTypeDAO;
+    private $input; // Capturo el cuerpo de la solicitud
 
     function __construct() {
         $this->MovementTypeDAO = new MovementTypeDAO();
+        $this->input = json_decode(file_get_contents('php://input'),true);
+
     }
 
     // GET
@@ -62,9 +64,9 @@ class MovementTypeController
     }
 
     // POST
-    function createMovementType($data)
+    function createMovementType()
     {
-        $movementType = $this->MovementTypeDAO->createMovementType($data);
+        $movementType = $this->MovementTypeDAO->createMovementType($this->input);
 
         if (isset($movementType)) {
             return sendJsonResponse(new ApiResponse(
@@ -77,9 +79,9 @@ class MovementTypeController
     }
 
     // PUT
-    function updateMovementType($data)
+    function updateMovementType()
     {
-        $movementType = $this->MovementTypeDAO->updateMovementType($data);
+        $movementType = $this->MovementTypeDAO->updateMovementType($this->input);
 
         if (isset($movementType)) {
             return sendJsonResponse(new ApiResponse(
@@ -90,9 +92,9 @@ class MovementTypeController
             ));
         }
     }
-    function deleteMovementType($data)
+    function deleteMovementType()
     {
-        $movementType = $this->MovementTypeDAO->deleteMovementType($data);
+        $movementType = $this->MovementTypeDAO->deleteMovementType($this->input);
 
         if (isset($movementType)) {
             return sendJsonResponse(new ApiResponse(
