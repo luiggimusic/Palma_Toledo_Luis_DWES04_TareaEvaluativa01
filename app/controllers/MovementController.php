@@ -9,9 +9,12 @@ require_once '../app/helpers/helper.php'; // cargo el fichero con las funciones 
 class MovementController
 {
     private $MovementDAO;
+    private $input; // Capturo el cuerpo de la solicitud
+
     function __construct()
     {
         $this->MovementDAO = new MovementDAO();
+        $this->input = json_decode(file_get_contents('php://input'),true);
     }
     // GET
     function getAllMovements()
@@ -60,9 +63,9 @@ class MovementController
         print_r($movement);
     }
 
-    function getMovementByData($data)
+    function getMovementByData()
     {
-        $movement = $this->MovementDAO->getMovementByData($data);
+        $movement = $this->MovementDAO->getMovementByData($this->input);
 
         if (isset($movement)) {
             return sendJsonResponse(new ApiResponse(
@@ -84,9 +87,9 @@ class MovementController
     }
 
     // POST
-    function sale($data)
+    function sale()
     {
-        $movement = $this->MovementDAO->sale($data);
+        $movement = $this->MovementDAO->sale($this->input);
 
         if (isset($movement)) {
             return sendJsonResponse(new ApiResponse(
@@ -98,9 +101,9 @@ class MovementController
         }
     }
 
-    function purchase($data)
+    function purchase()
     {
-        $movement = $this->MovementDAO->purchase($data);
+        $movement = $this->MovementDAO->purchase($this->input);
 
         if (isset($movement)) {
             return sendJsonResponse(new ApiResponse(
@@ -112,5 +115,16 @@ class MovementController
         }
     }
 
-    function inventoryTransfer($data) {}
+    function inventoryTransfer() {
+        $movement = $this->MovementDAO->inventoryTransfer($this->input);
+
+        if (isset($movement)) {
+            return sendJsonResponse(new ApiResponse(
+                status: 'success',
+                code: 200,
+                message: 'Datos cargados correctamente',
+                data: $movement
+            ));
+        }        
+    }
 }
