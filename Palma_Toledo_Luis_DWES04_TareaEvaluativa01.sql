@@ -1,4 +1,4 @@
--- Active: 1738588283297@@127.0.0.1@3306@palma_toledo_luis_dwes04_tareaevaluativa01
+-- Active: 1735228839859@@127.0.0.1@3306@palma_toledo_luis_dwes04_tareaevaluativa01
 --
 -- Base de datos: `Palma_Toledo_Luis_DWES04_TareaEvaluativa01`
 --
@@ -8,7 +8,7 @@ USE palma_toledo_luis_dwes04_tareaevaluativa01;
 
 
 DROP TABLE IF EXISTS `movements`;
-DROP TABLE IF EXISTS `movementtTypes`;
+DROP TABLE IF EXISTS `movementTypes`;
 DROP TABLE IF EXISTS `inventory`;
 DROP TABLE IF EXISTS `products`;
 DROP TABLE IF EXISTS `productCategories`;
@@ -118,7 +118,6 @@ CREATE TABLE IF NOT EXISTS `movements` (
     CONSTRAINT `MOV_MTYPES_FK` FOREIGN KEY (`movementTypeId`) REFERENCES `movementTypes` (`movementTypeId`),
     CONSTRAINT `MOV_UNQ` UNIQUE (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
-
 
 --
 -- Volcado de datos para la tabla `movements`

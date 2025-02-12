@@ -157,7 +157,7 @@ class MovementDAO
 
         $connection = $this->db->getConnection();
 
-        $stock = Self::inventoryStock($connection, $data);
+        $stock = Self::inventoryStock($connection, $data, "ubicacionOrigen");
 
         // Evaluo si el código de producto no existe
         if (!productCodeVerify($connection, $data)) {
@@ -218,7 +218,7 @@ class MovementDAO
             $statement->execute();
 
             // Si el stock es cero, elimino la línea de la tabla inventory
-            $stock = Self::inventoryStock($connection, $data);
+            $stock = Self::inventoryStock($connection, $data, "ubicacionOrigen");
 
             if ($stock === 0) {
                 $deleteQuery = "DELETE FROM inventory WHERE productCode = :productCode AND batchNumber = :fromBatchNumber AND location = :fromLocation";
@@ -309,7 +309,7 @@ class MovementDAO
 
             // Una vez creada la linea en la tabla movements, evaluo el stock en la tabla inventory
             // Si no hay stock en la tabla inventory de productCode, batchNumber y location, insertará una nueva línea
-            $stock = Self::inventoryStock($connection, $data);
+            $stock = Self::inventoryStock($connection, $data, "ubicacionDestino");
 
             if ($stock === null) {
                 $insertQuery = "INSERT INTO inventory (productCode, batchNumber, location, stock) VALUES (:productCode, :toBatchNumber, :toLocation, :quantity)";
@@ -349,7 +349,6 @@ class MovementDAO
         }
     }
 
-
     function inventoryTransfer($data)
     {
         $movementService = new MovementService();
@@ -376,6 +375,13 @@ class MovementDAO
         }
         if (empty($data['toLocation'])) {
             $errores["toLocation"] = 'La ubicación de destino es obligatoria';
+        }
+
+        // Evaluo stock en ubicación de origen en la tabla inventory de productCode, batchNumber y location, si hay stock, descontará si no hay, dará mensaje de error
+        $stockOrigen = Self::inventoryStock($connection, $data, "ubicacionOrigen");
+
+        if ($stockOrigen < $data['quantity']) {
+            $errores["quantity"] = 'No hay stock disponible para realizar este movimiento';
         }
 
         if (empty($errores)) {
@@ -413,13 +419,11 @@ class MovementDAO
             $statement = $connection->prepare($query);
             $statement->execute($params);
 
-            // Una vez creada la linea en la tabla movements, evaluo el stock en la tabla inventory
-            // Si no hay stock en la tabla inventory de productCode, batchNumber y location, insertará una nueva línea
-            $stock = Self::inventoryStock($connection, $data);
+            // Una vez creada la linea en la tabla movements, evaluo los stocks en la tabla inventory
+            // Evaluo stock en ubicación de destino en la tabla inventory de productCode, batchNumber y location, insertará una nueva línea
+            $stockDestino = Self::inventoryStock($connection, $data, "ubicacionDestino");
 
-
-            var_dump($stock);
-            if ($stock === null) {
+            if ($stockDestino === null) {
                 $insertQuery = "INSERT INTO inventory (productCode, batchNumber, location, stock) VALUES (:productCode, :toBatchNumber, :toLocation, :quantity)";
                 $insertStatement = $connection->prepare($insertQuery);
 
@@ -445,6 +449,38 @@ class MovementDAO
                 // Ejecuto la consulta
                 $statement->execute();
             }
+
+            // ****** STOCK DE ORIGEN ****** //
+            // Si ya hay stock en la tabla inventory de productCode, batchNumber y location, actualizará la línea
+            $query = "UPDATE inventory SET stock=stock-:quantity WHERE productCode = :productCode AND batchNumber = :fromBatchNumber
+                AND location = :fromLocation";
+            $statement = $connection->prepare($query);
+
+            // Vinculo los parámetros
+            $statement->bindParam(':productCode', $data['productCode'], PDO::PARAM_STR);
+            $statement->bindParam(':fromBatchNumber', $data['fromBatchNumber'], PDO::PARAM_STR);
+            $statement->bindParam(':fromLocation',  $data['fromLocation'], PDO::PARAM_STR);
+            $statement->bindParam(':quantity',  $data['quantity'], PDO::PARAM_INT);
+
+            // Ejecuto la consulta
+            $statement->execute();
+
+            // Si el stock es cero, elimino la línea de la tabla inventory
+            $stockOrigen = Self::inventoryStock($connection, $data, "ubicacionOrigen");
+
+            if ($stockOrigen === 0) {
+                $deleteQuery = "DELETE FROM inventory WHERE productCode = :productCode AND batchNumber = :fromBatchNumber AND location = :fromLocation";
+                $deleteStatement = $connection->prepare($deleteQuery);
+
+                // Vinculo los parámetros
+                $deleteStatement->bindParam(':productCode', $data['productCode'], PDO::PARAM_STR);
+                $deleteStatement->bindParam(':fromBatchNumber', $data['fromBatchNumber'], PDO::PARAM_STR);
+                $deleteStatement->bindParam(':fromLocation',  $data['fromLocation'], PDO::PARAM_STR);
+
+                // Ejecuto la consulta de eliminación
+                $deleteStatement->execute();
+            }
+
             return $data;
         } else {
             sendJsonResponse(new ApiResponse(
@@ -457,33 +493,29 @@ class MovementDAO
         }
     }
 
-    function inventoryStock($connection, $data)
+    function inventoryStock($connection, $data, $locationCriteria)
     {
         // Evaluo el stock en la tabla inventory
-        if (!empty($data['fromBatchNumber']) AND !empty($data['toBatchNumber']) AND !empty($data['fromLocation']) AND !empty($data['toLocation'])) {
 
-
-
-
-
-            
-            $query = "SELECT stock FROM inventory WHERE productCode = :productCode AND batchNumber = :fromBatchNumber AND batchNumber = :toBatchNumber
-            AND location = :fromLocation AND location = :toLocation";
+        if ($locationCriteria === "ubicacionOrigen") {
+            $query = "SELECT stock FROM inventory WHERE productCode = :productCode AND batchNumber = :fromBatchNumber AND location = :fromLocation";
             $statement = $connection->prepare($query);
-        } else {
-            $query = "SELECT stock FROM inventory WHERE productCode = :productCode AND (batchNumber = :fromBatchNumber OR batchNumber = :toBatchNumber)
-                AND (location = :fromLocation OR location = :toLocation)";
+            // Vinculo los parámetros
+            $statement->bindParam(':productCode', $data['productCode'], PDO::PARAM_STR);
+            $statement->bindParam(':fromBatchNumber', $data['fromBatchNumber'], PDO::PARAM_STR);
+            $statement->bindParam(':fromLocation', $data['fromLocation'], PDO::PARAM_STR);
+            // Ejecuto la consulta
+            $statement->execute();
+        } elseif ($locationCriteria === "ubicacionDestino") {
+            $query = "SELECT stock FROM inventory WHERE productCode = :productCode AND batchNumber = :toBatchNumber AND location = :toLocation";
             $statement = $connection->prepare($query);
+            // Vinculo los parámetros
+            $statement->bindParam(':productCode', $data['productCode'], PDO::PARAM_STR);
+            $statement->bindParam(':toBatchNumber', $data['toBatchNumber'], PDO::PARAM_STR);
+            $statement->bindParam(':toLocation', $data['toLocation'], PDO::PARAM_STR);
+            // Ejecuto la consulta
+            $statement->execute();
         }
-        // Vinculo los parámetros
-        $statement->bindParam(':productCode', $data['productCode'], PDO::PARAM_STR);
-        $statement->bindParam(':fromBatchNumber', $data['fromBatchNumber'], PDO::PARAM_STR);
-        $statement->bindParam(':toBatchNumber', $data['toBatchNumber'], PDO::PARAM_STR);
-        $statement->bindParam(':fromLocation', $data['fromLocation'], PDO::PARAM_STR);
-        $statement->bindParam(':toLocation', $data['toLocation'], PDO::PARAM_STR);
-
-        // Ejecuto la consulta
-        $statement->execute();
 
         // Obtengo el resultado
         $result = $statement->fetch(PDO::FETCH_ASSOC);
