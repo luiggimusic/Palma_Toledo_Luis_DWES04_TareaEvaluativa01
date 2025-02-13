@@ -1,10 +1,10 @@
--- Active: 1735228839859@@127.0.0.1@3306@palma_toledo_luis_dwes04_tareaevaluativa01
+-- Active: 1735228839859@@127.0.0.1@3306@palma_toledo_luis_DWES04
 --
--- Base de datos: `Palma_Toledo_Luis_DWES04_TareaEvaluativa01`
+-- Base de datos: `palma_toledo_luis_DWES04`
 --
 
-CREATE DATABASE IF NOT EXISTS palma_toledo_luis_dwes04_tareaevaluativa01;
-USE palma_toledo_luis_dwes04_tareaevaluativa01;
+CREATE DATABASE IF NOT EXISTS palma_toledo_luis_DWES04;
+USE palma_toledo_luis_DWES04;
 
 
 DROP TABLE IF EXISTS `movements`;
@@ -232,4 +232,3 @@ INSERT INTO
         ('Alejandro','Navarro Gutierrez','24228259J','1999/10/10','OPM'),
         ('Rosa','Torres Ramos','23361012G','1986/05/01','PRR'),
         ('Daniel','Serrano Molina','66150847H','1980/10/07','PRM');
-
