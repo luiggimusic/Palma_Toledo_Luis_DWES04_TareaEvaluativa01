@@ -1,0 +1,1518 @@
+{
+	"info": {
+		"_postman_id": "97f4c782-bf5e-4dce-8d3e-ba708ef79d6b",
+		"name": "Palma_Toledo_Luis_DWES04_TE1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24191694"
+	},
+	"item": [
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "USER - GET - All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/user/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"user",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - GET - ByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/user/get/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"user",
+								"get",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - GET - ByID (NOK - ID NO existente en BBDD)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/user/get/100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"user",
+								"get",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - POST - Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Creo un nuevo usuario\r\n{\r\n    \"name\": \"Juan\",\r\n    \"surname\": \"Perez\",\r\n    \"dni\": \"99999999R\",\r\n    \"dateOfBirth\": \"07/12/1990\",\r\n    \"departmentId\": \"sal\"\r\n}\r\n// Si intento volver a crearlo, detectará que ese DNI ya existe en la base de datos ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/user/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"user",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - POST - Create (NOK)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Creo un nuevo usuario\r\n{\r\n    \"name\": \"Juan\",\r\n    \"surname\": \"Perez\",\r\n    \"dni\": \"99999999I\",\r\n    \"dateOfBirth\": \"07/12/1990\",\r\n    \"departmentId\": \"sal\"\r\n}\r\n// Si intento volver a crearlo, detectará que ese DNI ya existe en la base de datos ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/user/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"user",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - PUT - Update (OK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Hago modificaciones en el usuario manteniendo su DNI\r\n{\r\n    \"name\": \"Juan José\",  \r\n    \"surname\": \"García\", \r\n    \"dni\": \"99999999R\",\r\n    \"dateOfBirth\": \"17/12/1982\",\r\n    \"departmentId\": \"pu\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/user/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"user",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - PUT - Update (NOK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Pruebo pasar DNI que no está en la BBDD\r\n{\r\n    \"name\": \"Juan\",\r\n    \"surname\": \"Pérez\",\r\n    \"dni\": \"99999999I\",\r\n    \"dateOfBirth\": \"07/12/1981\",\r\n    \"departmentId\": \"ES\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/user/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"user",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "USER - DELETE - Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Elimino el usuario con dni\r\n{\r\n    \"dni\": \"99999999r\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/user/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"user",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PRODUCTCATEGORY",
+			"item": [
+				{
+					"name": "PRODUCTCATEGORY - GET - All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/productcategory/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"productcategory",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCTCATEGORY - GET - ByID (OK - categoryId existente en BBDD)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/productcategory/get/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"productcategory",
+								"get",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CATEGORY - GET - ByID (NOK - categoryId NO existente en BBDD)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/productcategory/get/20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"productcategory",
+								"get",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCTCATEGORY- POST - Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Creo una nueva categoría\r\n{\r\n    \"productCategoryId\": \"GF\",\r\n    \"productCategoryName\": \"Gifts\"\r\n}\r\n\r\n// Si intento volver a crearla, detectará que ya esa categoryId ya existe en la base de datos",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/productcategory/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"productcategory",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCTCATEGORY - PUT - Update (OK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Hago modificaciones manteniendo el productCategoryId\r\n{\r\n    \"productCategoryId\": \"GF\",\r\n    \"productCategoryName\": \"Prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/productcategory/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"productcategory",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCTCATEGORY - PUT - Update (NOK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Hago modificaciones con un productCategoryId que no está en sistema o si intento pasar vacíos\r\n{\r\n    \"productCategoryId\": \"PR\",\r\n    \"productCategoryName\": \"Prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/productcategory/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"productcategory",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCTCATEGORY - DELETE - Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Elimino productCategoryId\r\n{\r\n    \"productCategoryId\": \"GF\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/productcategory/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"productcategory",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DEPARTMENT",
+			"item": [
+				{
+					"name": "DEPARTMENT - GET - All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/department/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"department",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENT - GET - ByID (OK - departmentId existente en BBDD)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/department/get/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"department",
+								"get",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENT - GET - ByID (NOK - departmentId NO existente en BBDD)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/department/get/100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"department",
+								"get",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENT - POST - Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Creo un nuevo departamento\r\n{\r\n    \"departmentId\": \"LOG\",\r\n    \"departmentName\": \"Logicstics\"\r\n}\r\n// Si intento volver a crearlo, detectará que ese ya departmenId ya existe en la base de datos",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/department/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"department",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENT - PUT - Update (OK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Hago modificaciones manteniendo el departmentId\r\n{\r\n    \"departmentId\": \"LOG\",\r\n    \"departmentName\": \"Prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/department/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"department",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENT - PUT - Update (NOK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Pruebo pasar campos vacíos\r\n{\r\n    \"departmentId\": \"\",\r\n    \"departmentName\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/department/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"department",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENT - PUT - Update (NOK) 1",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Pruebo pasar un departmentId no registrado\r\n{\r\n    \"departmentId\": \"PRU\",\r\n    \"departmentName\": \"Prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/department/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"department",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENT - DELETE - Delete (NOK) 1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Si el departmentId no existe no permitirá eliminarlo\r\n{\r\n    \"departmentId\": \"AL\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/department/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"department",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEPARTMENT - DELETE - Delete (OK)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Si el departmentId existe y no está relacionado con otra tabla\r\n{\r\n    \"departmentId\": \"log\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/department/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"department",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MOVEMENT TYPE",
+			"item": [
+				{
+					"name": "MOVEMENT TYPE - GET - All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT TYPE - GET - ByID (OK - movementId existente en BBDD)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/get/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"get",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT TYPE - GET - ByID (NOK - movementId NO existente en BBDD)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/get/55",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"get",
+								"55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT TYPE - POST- Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Creo un nuevo tipo de movimiento\r\n{\r\n    \"movementTypeId\": \"pr\",\r\n    \"movementTypeName\": \"Production\"\r\n}\r\n// Si intento volver a crearlo, detectará que ese ya movementTypeId ya existe en la base de datos",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT TYPE - PUT- Update (OK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Hago modificaciones manteniendo el movementTypeId\r\n{\r\n    \"movementTypeId\": \"PR\",\r\n    \"movementTypeName\": \"prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT TYPE - PUT- Update (NOK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Pruebo pasar campos vacíos\r\n{\r\n    \"movementTypeId\": \"\",\r\n    \"movementTypeName\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT TYPE - PUT- Update (NOK) 1",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Pruebo pasar un movementTypeId que no registrado\r\n{\r\n    \"movementTypeId\": \"AL\",\r\n    \"movementTypeName\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT TYPE - DELETE- Delete (NOK)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Si el movementTypeId no existe no permitirá eliminarlo\r\n{\r\n    \"movementTypeId\": \"PT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT TYPE - DELETE- Delete (NOK) 1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Si el movementTypeId está relacionado a un movimiento no permitirá eliminarlo\r\n{\r\n    \"movementTypeId\": \"SA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT TYPE - DELETE- Delete (OK)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Una vez eliminado, si intento eliminar con ese movementTypeId no lo encontrará\r\n{\r\n    \"movementTypeId\": \"SC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movementType/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movementType",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PRODUCT",
+			"item": [
+				{
+					"name": "PRODUCT - GET - All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/product/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"product",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCT - GET - ByID (OK - productCode existente en BBDD)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/product/get/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"product",
+								"get",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCT - GET - ByID (NOK - productCode NO existente en BBDD)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/product/get/50",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"product",
+								"get",
+								"50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCT - POST - Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Creo un nuevo producto\r\n    {\r\n        \"productCode\": \"FC1N0F2S1C-PXIa\",\r\n        \"productName\": \"SEMIFINISHED PART P2143-S\",\r\n        \"productCategoryId\": \"rm\"\r\n    }\r\n// Si intento volver a crearlo, detectará que ese productCode ya existe en la base de datos",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/product/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"product",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCT - PUT - Update (OK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Hago modificaciones manteniendo el productCode\r\n    {\r\n        \"productCode\": \"FC1N0F2S1C-PXIA\",\r\n        \"productName\": \"Prueba\",\r\n        \"productCategoryId\": \"fp\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/product/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"product",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCT - PUT - Update (NOK)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Pruebo pasar campos vacíos\r\n{\r\n    \"productCode\": \"\",\r\n    \"productName\": \"\",\r\n    \"productCategoryId\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/product/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"product",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCT - PUT - Update (NOK) 1",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Pruebo pasar un productCode que no registrado\r\n{\r\n    \"productCode\": \"Prueba\",\r\n    \"productName\": \"Prueba\",\r\n    \"productCategoryId\": \"Prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/product/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"product",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PRODUCT - DELETE - Delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productCode\": \"FC1N0F2S1C-PXIA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/product/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"product",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MOVEMENT",
+			"item": [
+				{
+					"name": "MOVEMENT - GET - All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - GET - ByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/get/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"get",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - GET - ByID (NOK)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/get/600",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"get",
+								"600"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - POST - Filtered",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// Filtro por distintos criterios,\r\n// Si son vacíos los mostrará todos\r\n{\r\n    \"productCode\": \"\",\r\n    \"productName\": \"\",\r\n    \"fromBatchNumber\": \"\",\r\n    \"toBatchNumber\": \"\",\r\n    \"fromLocation\": \"\",\r\n    \"toLocation\": \"\",\r\n    \"quantity\": \"\",\r\n    \"movementTypeId\": \"SA\",\r\n    \"movementTypeName\": \"\",\r\n    \"movementDate\": \"\",\r\n    \"customer\": \"\",\r\n    \"supplier\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/get/filtered",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"get",
+								"filtered"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - POST - Sale (OK)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Creo un nuevo movimiento de venta, se registrará en la tabla movements y descontará stock de la tabla inventory\r\n// Por defecto el movimiento será SA\r\n{\r\n    \"productCode\": \"FC1N0F2S1C-PXI\",\r\n    \"fromBatchNumber\": \"10000206\",\r\n    \"fromLocation\": \"M221\",\r\n    \"quantity\": 50,\r\n    \"movementDate\": \"12/12/2024\",\r\n    \"customer\": \"Hanon\"\r\n}\r\n// No es restrictivo en cuanto a la cantidad de movimientos que se realizan, pero sí con que no hayan campos vacíos que sean obligatorios",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/sale",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"sale"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - POST - Sale (NOK)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Intento crear un nuevo movimiento con un código de producto que no está registrado en la BBDD \r\n// Por defecto el movimiento será SA\r\n{\r\n    \"productCode\": \"1716186-00-J-FAB\",\r\n    \"fromBatchNumber\": \"10000205\",\r\n    \"fromLocation\": \"ENCAIXAT\",\r\n    \"quantity\": 1235,\r\n    \"movementDate\": \"12/23/2024\",\r\n    \"customer\": \"Hanon\"\r\n}\r\n// No es restrictivo en cuanto a la cantidad de movimientos que se realizan, pero sí con que no hayan campos vacíos",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/sale",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"sale"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - POST - Sale (NOK) 1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Intento crear un nuevo movimiento con stock insuficiente \r\n// Por defecto el movimiento será SA\r\n{\r\n    \"productCode\": \"1716186-00-P-FAB\",\r\n    \"productName\": \"BALANCE RING, OUTLET, ROTOR,PM291\",\r\n    \"fromBatchNumber\": \"10000254\",\r\n    \"fromLocation\": \"M215\",\r\n    \"quantity\": 1235,\r\n    \"movementDate\": \"12/02/2025\",\r\n    \"customer\": \"Hanon\"\r\n}\r\n// No es restrictivo en cuanto a la cantidad de movimientos que se realizan, pero sí con que no hayan campos vacíos que sean obligatorios",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/sale",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"sale"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - POST - Purchase (OK) 1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Creo un nuevo movimiento, da de alta por tratarse de un nuevo lote y ubicación\r\n// Por defecto el movimiento será PU\r\n{\r\n    \"productCode\": \"1716186-00-P-FAB\",\r\n    \"toBatchNumber\": \"100002094\",\r\n    \"toLocation\": \"M221\",\r\n    \"quantity\": 1237,\r\n    \"movementDate\": \"11/02/2025\",\r\n    \"supplier\": \"PXI China\"\r\n}\r\n// No es restrictivo en cuanto a la cantidad de movimientos que se realizan, pero sí con que no hayan campos vacíos que sean obligatorios",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/purchase",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - POST - Purchase (OK) 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Creo un nuevo movimiento que actualizará el stock por tratarse de un lote y ubicación ya existentes\r\n{\r\n    \"productCode\": \"FC1N0F2S1B-PXI\",\r\n    \"productName\": \"SEMIFINISHED PART P2141-S\",\r\n    \"toBatchNumber\": \"10000206\",\r\n    \"toLocation\": \"M221\",\r\n    \"quantity\": 999,\r\n    \"movementDate\": \"12/02/2025\",\r\n    \"supplier\": \"PXI China\"\r\n}\r\n// No es restrictivo en cuanto a la cantidad de movimientos que se realizan, pero sí con que no hayan campos vacíos que sean obligatorios",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/purchase",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - POST - Purchase (NOK)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Intento crear compra con campos vacíos\r\n{\r\n    \"productCode\": \"FC1N0F2S1A02\",\r\n    \"toBatchNumber\": \"\",\r\n    \"toLocation\": \"\",\r\n    \"quantity\": 0,\r\n    \"movementDate\": \"12/02/2025\",\r\n    \"supplier\": \"\"\r\n}\r\n// No es restrictivo en cuanto a la cantidad de movimientos que se realizan, pero sí con que no hayan campos vacíos que sean obligatorios",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/purchase",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"purchase"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - POST - InventoryTransfer (NOK)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Intento hacer una transferencia con una cantidad mayor a la que tengo\r\n{\r\n    \"productCode\": \"1716186-00-P-FAB\",\r\n    \"productName\": \"BALANCE RING, OUTLET, ROTOR,PM291\",\r\n    \"fromBatchNumber\": \"10000254\",\r\n    \"toBatchNumber\": \"10000255\",\r\n    \"fromLocation\": \"M215\",\r\n    \"toLocation\": \"M897\",\r\n    \"quantity\": 100,\r\n    \"movementTypeId\": \"TR\",\r\n    \"movementDate\": \"13/02/2025\"\r\n}\r\n// No es restrictivo en cuanto a la cantidad de movimientos que se realizan, pero sí con que no hayan campos vacíos que sean obligatorios",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/inventoryTransfer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"inventoryTransfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT - POST - InventoryTransfer (OK)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// Realizo una transferencia\r\n{\r\n    \"productCode\": \"1716186-00-P-FAB\",\r\n    \"fromBatchNumber\": \"10000255\",\r\n    \"toBatchNumber\": \"10000256\",\r\n    \"fromLocation\": \"M898\",\r\n    \"toLocation\": \"M899\",\r\n    \"quantity\": 20,\r\n    \"movementTypeId\": \"TR\",\r\n    \"movementDate\": \"12/02/2025\"\r\n}\r\n// No es restrictivo en cuanto a la cantidad de movimientos que se realizan, pero sí con que no hayan campos vacíos que sean obligatorios",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01/public/movement/inventoryTransfer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"Palma_Toledo_Luis_DWES04_TAREAEVALUATIVA01",
+								"public",
+								"movement",
+								"inventoryTransfer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
