@@ -127,7 +127,7 @@ class UserDAO
             $userUpdate = $statement->execute([
                 'name' => $user->getName(),
                 'surname' => $user->getSurname(),
-                'dni' => $user->getDni(),  // Asegúrate de descomentar esta línea si es necesario
+                'dni' => $user->getDni(), 
                 'dateOfBirth' => $user->getDateOfBirth(),
                 'departmentId' => $user->getDepartmentId(),
             ]);
